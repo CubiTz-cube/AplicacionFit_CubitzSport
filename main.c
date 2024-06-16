@@ -1,6 +1,7 @@
 #include "state.h"
 
 #include "pages/login.h"
+#include "pages/register.h"
 #include "pages/menu.h"
 
 int main()
@@ -16,7 +17,8 @@ int main()
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);
-        else if (page == 1) layer_menu(&page, &fontLekton, &fontAldrich);
+        else if (page == 1) layer_register(&page, &fontLekton, &fontAldrich);
+        else if (page == 2) layer_menu(&page, &fontLekton, &fontAldrich);
 
 		/*BeginDrawing();
 
