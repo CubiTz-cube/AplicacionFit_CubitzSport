@@ -9,22 +9,8 @@ int GuiFloatBox(Rectangle bounds, const char* text, float* value, int minValue, 
 int main()
 {
 	InitWindow(1280, 720, "OLP-76");
-
-	// General variables
 	SetTargetFPS(60);
 
-	float variableA = 0.0f;
-	float variableB = 0.0f;
-	float result = 0.0f;
-	char operation[2];
-	operation[0] = '+';
-	operation[1] = '\0';
-
-	bool variableAMode = false;
-	bool variableBMode = false;
-	//--------------------------------------------------------------------------------------
-
-	// Main game loop
 	while (!WindowShouldClose())
 	{
 		// Draw 
@@ -36,34 +22,6 @@ int main()
         GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
         GuiSetFont(LoadFont("public/fonts/Aldrich-Regular.ttf"));
         GuiDrawText("CubiTz", (Rectangle){ 500, 10, 100, 120 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-
-		if (GuiFloatBox((Rectangle){ 10, 10, 100, 20 }, NULL, &variableA, -1000000.0, 1000000.0, variableAMode)) variableAMode = !variableAMode;
-		if (GuiFloatBox((Rectangle){ 140, 10, 100, 20 }, NULL, &variableB, -1000000.0, 1000000.0, variableBMode)) variableBMode = !variableBMode;
-		
-		if (GuiButton((Rectangle){ 10, 70, 50, 20 }, "+"))
-		{
-			result = variableA + variableB;
-			operation[0] = '+';
-		}
-		if (GuiButton((Rectangle){ 70, 70, 50, 20 }, "-")) 
-		{
-			result = variableA - variableB;
-			operation[0] = '-';
-		}
-		if (GuiButton((Rectangle){ 130, 70, 50, 20 }, "*")) 
-		{
-			result = variableA * variableB;
-			operation[0] = '*';
-		}
-		if (GuiButton((Rectangle){ 190, 70, 50, 20 }, "/")) 
-		{
-			result = variableA / variableB;
-			operation[0] = '/';
-		}
-
-		DrawText(operation, 123, 15, 10, DARKGRAY);
-		
-		GuiFloatBox((Rectangle){ 55, 40, 135, 20 }, "= ", &result, -2000000.0, 2000000.0, false);
 		
 		EndDrawing();
         //----------------------------------------------------------------------------------
