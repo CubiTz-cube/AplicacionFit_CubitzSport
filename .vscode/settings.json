@@ -1,6 +1,10 @@
 {
     "files.associations": {
         "raygui.h": "c",
-        "raylib.h": "c"
+        "raylib.h": "c",
+        "login.c": "cpp",
+        "pageconfig.h": "c",
+        "globalvariables.h": "c",
+        "login.h": "c"
     }
 }
