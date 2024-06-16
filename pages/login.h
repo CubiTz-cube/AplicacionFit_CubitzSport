@@ -1,7 +1,7 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include "../library/pageconfig.h"
+#include "../state.h"
 
 void layer_login(int* page, Font* fontLekton, Font* fontAldrich){
     BeginDrawing();

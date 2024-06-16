@@ -1,7 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "../library/pageconfig.h"
+#include "../state.h"
 
 void layer_menu(int* page, Font* fontLekton, Font* fontAldrich){
     BeginDrawing();
