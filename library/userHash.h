@@ -31,6 +31,10 @@ User** loadUserHash(int size, char* filaPath){
     }
     
     FILE* file = fopen(filaPath, "r");
+    if (!file) {
+        fopen(filaPath, "w");
+        file = fopen(filaPath, "r");
+    }
     if (file){
         char line[256];
 
@@ -41,7 +45,6 @@ User** loadUserHash(int size, char* filaPath){
 
             char* token = strtok(line, "|");
             while (token != NULL) {
-                printf("%s\n", token);
                 switch (i){
                 case 0:
                     loadSpace = atoi(token);
@@ -94,7 +97,34 @@ User** loadUserHash(int size, char* filaPath){
         printf("Error al abrir el archivo\n");
         return NULL;
     }
+    fclose(file);
     return usersHash;
+}
+
+void saveUserHash(User** usersHash, int size, char* filePath){
+    FILE* file = fopen(filePath, "w");
+    if (file){
+        for (int i = 0; i < size; i++){
+            if (usersHash[i]){
+                fprintf(file, "%d|%s|%s|", i, usersHash[i]->mail, usersHash[i]->password);
+                for (int j = 0; j < ACTIVITY_AMOUNT; j++){
+                    fprintf(file, "%d", usersHash[i]->activities[j]);
+                }
+                fprintf(file, "|%s|%d|%c|%f|%d|", usersHash[i]->info->name, usersHash[i]->info->old, usersHash[i]->info->genero, usersHash[i]->info->weight, usersHash[i]->info->height);
+                for (int j = 0; j < ACTIVITY_AMOUNT; j++){
+                    fprintf(file, "%d", usersHash[i]->achivement->recordsDistance[j]);
+                }
+                fprintf(file, "|");
+                for (int j = 0; j < ACTIVITY_AMOUNT; j++){
+                    fprintf(file, "%d", usersHash[i]->achivement->recordsCalories[j]);
+                }
+                fprintf(file, "\n");
+            }
+        }
+    }else{
+        printf("Error al abrir el archivo\n");
+    }
+    fclose(file);
 }
 
 void freeUserHash(User** usersHash, int size){
@@ -104,6 +134,19 @@ void freeUserHash(User** usersHash, int size){
         free(usersHash[i]);
     }
     free(usersHash);
+}
+
+int functionHash(int size, char* mail){
+    int hash = 0;
+    for (int i = 0; i < strlen(mail); i++){
+        hash += mail[i];
+    }
+    return hash % size;
+}
+
+void addUserHash(User** usersHash, int size, User* user){
+    int hash = functionHash(size, user->mail);
+    printf("Hash: %d\n", hash);
 }
 
 #endif

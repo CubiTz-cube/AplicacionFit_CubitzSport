@@ -35,6 +35,7 @@ int main(){
 		EndDrawing();*/
 	}
 
+	saveUserHash(usersHash, 3, "data/users.txt");
 	freeUserHash(usersHash, 3);
 	CloseWindow();
 }
