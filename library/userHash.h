@@ -146,7 +146,14 @@ int functionHash(int size, char* mail){
 
 void addUserHash(User** usersHash, int size, User* user){
     int hash = functionHash(size, user->mail);
-    printf("Hash: %d\n", hash);
+    if (usersHash[hash]){
+        int i = 1;
+        while (usersHash[hash]){
+            hash = (hash + i) % size;
+            i++;
+        }
+    }
+    usersHash[hash] = user;
 }
 
 #endif
