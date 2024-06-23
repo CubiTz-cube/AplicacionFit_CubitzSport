@@ -18,12 +18,12 @@ typedef struct nodeActivity{
 
 typedef struct infoUser{
     char name[50];
-   int edad;
+   int old;
    char genero;
-   int weight;
-   int height;
-   float IMC;
-    int BFP;
+   float weight; // En kg
+   int height; // En cm
+   float BMI; // Indice de masa corporal
+    int BFP; // Indice de grasa corporal
 }InfoUser;
 typedef struct achivement{
     int recordsDistance[ACTIVITY_AMOUNT];
@@ -32,9 +32,9 @@ typedef struct achivement{
 typedef struct user{
    char mail[100];
    char password[50];
-   NodeActivity* activities[ACTIVITY_AMOUNT];
-   InfoUser info;
-    Achivement achivement;
+   int activities[ACTIVITY_AMOUNT];
+   InfoUser* info;
+    Achivement* achivement;
 }User;
 
 #endif

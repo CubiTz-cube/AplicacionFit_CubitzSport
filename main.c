@@ -1,11 +1,13 @@
 #include "state.h"
+#include "library/userHash.h"
 
 #include "pages/login.h"
 #include "pages/register.h"
 #include "pages/menu.h"
 
-int main()
-{
+int main(){	
+	User** usersHash = loadUserHash(3, "data/users.txt");
+
 	InitWindow(1280, 720, "OLP-76");
 	SetTargetFPS(60);
     
@@ -33,5 +35,6 @@ int main()
 		EndDrawing();*/
 	}
 
+	freeUserHash(usersHash, 3);
 	CloseWindow();
 }

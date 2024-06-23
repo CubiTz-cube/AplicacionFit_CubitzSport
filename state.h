@@ -9,7 +9,7 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-#define ACTIVITY_AMOUNT 10
+#define ACTIVITY_AMOUNT 3
 
 #define PAGECONFIG_H
 #endif
