@@ -1,5 +1,6 @@
 #include "state.h"
 #include "library/userHash.h"
+#include "library/activityList.h"
 
 #include "pages/login.h"
 #include "pages/register.h"
@@ -7,6 +8,22 @@
 
 int main(){	
 	User** usersHash = loadUserHash(3, "data/users.txt");
+
+	NodeActivity* voleyH = NULL;
+
+	Time duration = {1, 30, 0};
+	Time startTime = {10, 0, 0};
+
+	addNodeActivity(&voleyH, 0, duration, startTime, 1000, 500);
+	addNodeActivity(&voleyH, 0, duration, startTime, 1000, 600);
+	addNodeActivity(&voleyH, 0, duration, startTime, 1000, 900);
+	addNodeActivity(&voleyH, 0, duration, startTime, 1000, 100);
+	
+	printNodesActivity(voleyH);
+
+	freeNodesActivity(&voleyH);
+
+	return 0;
 
 	InitWindow(1280, 720, "OLP-76");
 	SetTargetFPS(60);

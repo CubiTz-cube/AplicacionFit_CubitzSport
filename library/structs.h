@@ -9,11 +9,12 @@ typedef struct time{
     int second;
 }Time;
 typedef struct nodeActivity{
+    int userId; // La posicion de usuario en la tabla de hash
     Time duration;
     Time startTime;
     int distance; // En m
     int calories;
-    int userId; // La posicion de usuario en la tabla de hash
+    struct nodeActivity* next;
 }NodeActivity;
 
 typedef struct infoUser{
