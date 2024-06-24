@@ -22,7 +22,7 @@ User* createUser(){
     return user;
 }
 
-User** loadUserHash(int size, char* filaPath){
+User** loadUserHash(int size, char* filePath){
     User** usersHash = (User**)malloc(size * sizeof(User*));
     if (!usersHash) return NULL;
 
@@ -30,10 +30,11 @@ User** loadUserHash(int size, char* filaPath){
         usersHash[i] = NULL;
     }
     
-    FILE* file = fopen(filaPath, "r");
+    FILE* file = fopen(filePath, "r");
     if (!file) {
-        fopen(filaPath, "w");
-        file = fopen(filaPath, "r");
+        printf("Archivo creado: %s\n", filePath);
+        fopen(filePath, "w");
+        file = fopen(filePath, "r");
     }
     if (file){
         char line[256];
@@ -129,9 +130,11 @@ void saveUserHash(User** usersHash, int size, char* filePath){
 
 void freeUserHash(User** usersHash, int size){
     for (int i = 0; i < size; i++){
-        free(usersHash[i]->achivement);
-        free(usersHash[i]->info);
-        free(usersHash[i]);
+        if (usersHash[i]){
+            free(usersHash[i]->achivement);
+            free(usersHash[i]->info);
+            free(usersHash[i]);
+        }
     }
     free(usersHash);
 }

@@ -6,24 +6,16 @@
 #include "pages/register.h"
 #include "pages/menu.h"
 
+#define USERS_AMOUNT 3
+
 int main(){	
-	User** usersHash = loadUserHash(3, "data/users.txt");
+	User** usersHash = loadUserHash(USERS_AMOUNT, "data/users.txt");
+	if (!usersHash) return -1;
+	NodeActivity* activities[ACTIVITY_AMOUNT];
+	for (int i = 0; i < ACTIVITY_AMOUNT; i++) activities[i] = NULL;
+	loadNodesActivity(activities, "data/activities.txt");
 
-	NodeActivity* voleyH = NULL;
-
-	Time duration = {1, 30, 0};
-	Time startTime = {10, 0, 0};
-
-	addNodeActivity(&voleyH, 0, duration, startTime, 1000, 500);
-	addNodeActivity(&voleyH, 0, duration, startTime, 1000, 600);
-	addNodeActivity(&voleyH, 0, duration, startTime, 1000, 900);
-	addNodeActivity(&voleyH, 0, duration, startTime, 1000, 100);
-	
-	printNodesActivity(voleyH);
-
-	freeNodesActivity(&voleyH);
-
-	return 0;
+	printAllNodesActivity(activities);
 
 	InitWindow(1280, 720, "OLP-76");
 	SetTargetFPS(60);
@@ -32,7 +24,6 @@ int main(){
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
 
     int page = 0;
-
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);
@@ -52,7 +43,13 @@ int main(){
 		EndDrawing();*/
 	}
 
-	saveUserHash(usersHash, 3, "data/users.txt");
-	freeUserHash(usersHash, 3);
+	UnloadFont(fontLekton);
+	UnloadFont(fontAldrich);
+
+	saveNodesActivity(activities, "data/activities.txt");
+	saveUserHash(usersHash, USERS_AMOUNT, "data/users.txt");
+
+	freeAllNodesActivity(activities);
+	freeUserHash(usersHash, USERS_AMOUNT);
 	CloseWindow();
 }
