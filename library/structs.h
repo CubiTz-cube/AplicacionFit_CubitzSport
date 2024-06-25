@@ -3,12 +3,15 @@
 
 #include "../state.h"
 
-typedef struct time{
+typedef struct time
+{
     int hour;
     int minute;
     int second;
 }Time;
-typedef struct nodeActivity{
+
+typedef struct nodeActivity
+{
     int userId; // La posicion de usuario en la tabla de hash
     Time duration;
     Time startTime;
@@ -17,7 +20,9 @@ typedef struct nodeActivity{
     struct nodeActivity* next;
 }NodeActivity;
 
-typedef struct infoUser{
+typedef struct infoUser
+
+{
     char name[50];
    int old;
    char genero;
@@ -26,11 +31,15 @@ typedef struct infoUser{
    float BMI; // Indice de masa corporal
     int BFP; // Indice de grasa corporal
 }InfoUser;
-typedef struct achivement{
+
+typedef struct achivement
+{
     int recordsDistance[ACTIVITY_AMOUNT];
     int recordsCalories[ACTIVITY_AMOUNT];
 }Achivement;
-typedef struct user{
+
+typedef struct user
+{
    char mail[100];
    char password[50];
    int activities[ACTIVITY_AMOUNT];
