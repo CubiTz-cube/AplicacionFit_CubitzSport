@@ -5,6 +5,9 @@
 #include "pages/login.h"
 #include "pages/register.h"
 #include "pages/menu.h"
+#include "pages/addActivity.h"
+#include "pages/profile.h"
+#include "pages/stadistic.h"
 
 #define USERS_AMOUNT 3
 
@@ -15,7 +18,9 @@ int main(){
 	for (int i = 0; i < ACTIVITY_AMOUNT; i++) activities[i] = NULL;
 	loadNodesActivity(activities, "data/activities.txt");
 
-	printAllNodesActivity(activities);
+	seeUserHash(usersHash, USERS_AMOUNT);
+
+	seeAllNodesActivity(activities);
 
 	InitWindow(1280, 720, "OLP-76");
 	SetTargetFPS(60);
@@ -23,24 +28,17 @@ int main(){
     Font fontLekton = LoadFont("public/fonts/Lekton-Regular.ttf");
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
 
-    int page = 0;
+    int page = 3;
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);
         else if (page == 1) layer_register(&page, &fontLekton, &fontAldrich);
         else if (page == 2) layer_menu(&page, &fontLekton, &fontAldrich);
-
-		/*BeginDrawing();
-
-		ClearBackground(RAYWHITE);
-        
-        GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
-        GuiSetFont(LoadFont("public/fonts/Aldrich-Regular.ttf"));
-        GuiDrawText("CubiTz", (Rectangle){ 500, 10, 100, 120 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-		
-		GuiFloatBox((Rectangle){ 55, 40, 135, 20 }, "= ", &result, -2000000.0, 2000000.0, false);
-		
-		EndDrawing();*/
+		else if (page == 3) layer_addActivity(&page, &fontLekton, &fontAldrich);
+		else if (page == 4) layer_profile(&page, &fontLekton, &fontAldrich);
+		else if (page == 5) layer_stadistic(&page, &fontLekton, &fontAldrich);
+				
+		//GuiFloatBox((Rectangle){ 55, 40, 135, 20 }, "= ", &result, -2000000.0, 2000000.0, false);
 	}
 
 	UnloadFont(fontLekton);
@@ -51,5 +49,5 @@ int main(){
 
 	freeAllNodesActivity(activities);
 	freeUserHash(usersHash, USERS_AMOUNT);
-	CloseWindow();
+	//CloseWindow();
 }

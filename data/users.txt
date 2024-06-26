@@ -1,1 +1,1 @@
-0|correo|password|000|nombre|19|m|62.000000|182|000|000
+0|correo|password|nombre|19|m|62.000000|182|0,0,0,|0,0,0,
