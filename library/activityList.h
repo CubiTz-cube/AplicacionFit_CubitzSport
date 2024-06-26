@@ -59,7 +59,7 @@ void printNodesActivity(NodeActivity* head){
     }
 }
 
-void printAllNodesActivity(NodeActivity** activities){
+void seeAllNodesActivity(NodeActivity** activities){
     for (int i = 0; i < ACTIVITY_AMOUNT; i++){
         printf("\n");
         printf("ACTIVITY %d\n", i+1);

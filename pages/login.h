@@ -13,7 +13,8 @@ void layer_login(int* page, Font* fontLekton, Font* fontAldrich){
 
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    if (GuiButton((Rectangle){ 500, 200, 100, 40 }, "Menu")) *page = 1;
+    if (GuiButton((Rectangle){ 500, 200, 100, 40 }, "Menu")) *page = 2;
+    if (GuiButton((Rectangle){ 500, 250, 100, 40 }, "Register")) *page = 1;
 		
 	EndDrawing();
 }

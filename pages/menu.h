@@ -13,7 +13,9 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich){
 
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    if (GuiButton((Rectangle){ 500, 200, 100, 40 }, "Login")) *page = 0;
+    if (GuiButton((Rectangle){ 500, 200, 200, 40 }, "Anadir actividad")) *page = 3;
+    if (GuiButton((Rectangle){ 500, 250, 200, 40 }, "Perfil")) *page = 4;
+    if (GuiButton((Rectangle){ 500, 300, 200, 40 }, "Estadisticas")) *page = 5;
 		
 	EndDrawing();
 }
