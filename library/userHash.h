@@ -143,51 +143,6 @@ HashTable* createHashTable(int max){
     return hashTable;
 }
 
-void freeHashTable(HashTable* hashTable, int size){
-    for (int i = 0; i < size; i++){
-        if (hashTable->users[i]){
-            free(hashTable->users[i]->info);
-            free(hashTable->users[i]);
-        }
-    }
-    free(hashTable->users);
-    free(hashTable);
-}
-
-/*
-    Recibe el tamaño de la tabla hash y el mail del usuario.
-    Devuelve una posicion en esta en funcial al mail.
-*/
-int functionHash(int size, char* mail){
-    int hash = 0;
-    for (int i = 0; i < strlen(mail); i++){
-        hash += mail[i];
-    }
-    return hash % size;
-}
-
-/*
-    Recibe un puntero de estructura usuario con los valores ya asignados.
-    Usa createUser para crear el usuario.
-*/
-void addHashTable(HashTable* hashTable, int size, User* user){
-    if (!hashTable) return;
-    if (hashTable->amount >= hashTable->max) {
-        printf("Maxima cantidad de usuarios alcanzada\n");
-        return;
-    }
-
-    int hash = functionHash(size, user->mail);
-    if (hashTable->users[hash]){
-        int i = 1;
-        while (hashTable->users[hash]){
-            hash = (hash + i) % size;
-            i++;
-        }
-    }
-    hashTable->users[hash] = user;
-}
-
 void seeHashTable(HashTable* hashTable, int size){
     for (int i = 0; i < size; i++){
         if (hashTable->users[i]){
@@ -207,6 +162,82 @@ void seeHashTable(HashTable* hashTable, int size){
             }
         }
     }
+}
+
+void freeHashTable(HashTable* hashTable, int size){
+    for (int i = 0; i < size; i++){
+        if (hashTable->users[i]){
+            free(hashTable->users[i]->info);
+            free(hashTable->users[i]);
+        }
+    }
+    free(hashTable->users);
+    free(hashTable);
+}
+
+int isFullHashTable(HashTable* hashTable){
+    if (!hashTable) return -1;
+    if (hashTable->amount >= hashTable->max){
+        printf("Maxima cantidad de usuarios alcanzada\n");
+        return 1;
+    }
+    return 0;
+}
+
+/*
+    Uso solo dentro de las funciones de hash. No usar de forma idependiente
+*/
+int functionHash(int size, char* mail){
+    int hash = 0;
+    for (int i = 0; i < strlen(mail); i++){
+        hash += mail[i];
+    }
+    return hash % size;
+}
+
+/*
+    Recibe un puntero de estructura usuario con los valores ya asignados.
+    Usa createUser para crear el usuario.
+*/
+void addHashTable(HashTable* hashTable, int size, User* user){
+    if (!hashTable) return;
+    if (isFullHashTable(hashTable)) return;
+
+    int hash = functionHash(size, user->mail);
+    if (hashTable->users[hash]){
+        int i = 1;
+        while (hashTable->users[hash]){
+            hash = (hash + i) % size;
+            i++;
+        }
+    }
+    hashTable->users[hash] = user;
+}
+
+/*
+    Recibe el mail del usuario a buscar.
+    Devuelve la posicion del usuario en la table de hash.
+    Si no se encuentra devuelve -1;
+*/
+int searchHashTable(HashTable* hashTable, char* mail){
+    if (!hashTable) return -1;
+
+    int hash = functionHash(hashTable->max, mail);
+    if (hashTable->users[hash]){
+        if (strcmp(hashTable->users[hash]->mail, mail) == 0){
+            return hash;
+        }else{
+            int i = 1;
+            while (hashTable->users[hash] || i>hashTable->max){
+                hash = (hash + i) % hashTable->max;
+                if (strcmp(hashTable->users[hash]->mail, mail) == 0){
+                    return hash;
+                }
+                i++;
+            }
+        }
+    }
+    return -1;
 }
 
 #endif
