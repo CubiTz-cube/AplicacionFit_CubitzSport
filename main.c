@@ -12,13 +12,16 @@
 #define USERS_AMOUNT 3
 
 int main(){	
-	User** usersHash = loadUserHash(USERS_AMOUNT, "data/users.txt");
-	if (!usersHash) return -1;
+	HashTable* hashTableUsers = createHashTable(USERS_AMOUNT);
+	if (!hashTableUsers) return -1;
+	hashTableUsers->users = loadUsers(USERS_AMOUNT, "data/users.txt");
+	if (!hashTableUsers->users) return -1;
+	
 	NodeActivity* activities[ACTIVITY_AMOUNT];
 	for (int i = 0; i < ACTIVITY_AMOUNT; i++) activities[i] = NULL;
 	loadNodesActivity(activities, "data/activities.txt");
 
-	seeUserHash(usersHash, USERS_AMOUNT);
+	seeHashTable(hashTableUsers, USERS_AMOUNT);
 
 	seeAllNodesActivity(activities);
 
@@ -45,9 +48,9 @@ int main(){
 	UnloadFont(fontAldrich);
 
 	saveNodesActivity(activities, "data/activities.txt");
-	saveUserHash(usersHash, USERS_AMOUNT, "data/users.txt");
+	saveUsers(hashTableUsers->users, USERS_AMOUNT, "data/users.txt");
 
 	freeAllNodesActivity(activities);
-	freeUserHash(usersHash, USERS_AMOUNT);
+	freeHashTable(hashTableUsers, USERS_AMOUNT);
 	//CloseWindow();
 }

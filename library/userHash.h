@@ -2,6 +2,10 @@
 #define HASHTABLE_H
 #include "structs.h"
 
+/*
+    Reserva la memoria para un usario y devuelve su puntero.
+    Se tiene que asinar los valores de los campos de la estructura.
+*/
 User* createUser(){
     User* user = (User*)malloc(sizeof(User));
     if (!user) return NULL;
@@ -15,7 +19,7 @@ User* createUser(){
     return user;
 }
 
-User** loadUserHash(int size, char* filePath){
+User** loadUsers(int size, char* filePath){
     User** usersHash = (User**)malloc(size * sizeof(User*));
     if (!usersHash) return NULL;
 
@@ -100,7 +104,7 @@ User** loadUserHash(int size, char* filePath){
     return usersHash;
 }
 
-void saveUserHash(User** usersHash, int size, char* filePath){
+void saveUsers(User** usersHash, int size, char* filePath){
     FILE* file = fopen(filePath, "w");
     if (file){
         for (int i = 0; i < size; i++){
@@ -130,16 +134,30 @@ void saveUserHash(User** usersHash, int size, char* filePath){
     fclose(file);
 }
 
-void freeUserHash(User** usersHash, int size){
-    for (int i = 0; i < size; i++){
-        if (usersHash[i]){
-            free(usersHash[i]->info);
-            free(usersHash[i]);
-        }
-    }
-    free(usersHash);
+HashTable* createHashTable(int max){
+    HashTable* hashTable = (HashTable*)malloc(sizeof(HashTable));
+    if (!hashTable) return NULL;
+
+    hashTable->amount = 0;
+    hashTable->max = max;
+    return hashTable;
 }
 
+void freeHashTable(HashTable* hashTable, int size){
+    for (int i = 0; i < size; i++){
+        if (hashTable->users[i]){
+            free(hashTable->users[i]->info);
+            free(hashTable->users[i]);
+        }
+    }
+    free(hashTable->users);
+    free(hashTable);
+}
+
+/*
+    Recibe el tamaño de la tabla hash y el mail del usuario.
+    Devuelve una posicion en esta en funcial al mail.
+*/
 int functionHash(int size, char* mail){
     int hash = 0;
     for (int i = 0; i < strlen(mail); i++){
@@ -148,34 +166,44 @@ int functionHash(int size, char* mail){
     return hash % size;
 }
 
-void addUserHash(User** usersHash, int size, User* user){
+/*
+    Recibe un puntero de estructura usuario con los valores ya asignados.
+    Usa createUser para crear el usuario.
+*/
+void addHashTable(HashTable* hashTable, int size, User* user){
+    if (!hashTable) return;
+    if (hashTable->amount >= hashTable->max) {
+        printf("Maxima cantidad de usuarios alcanzada\n");
+        return;
+    }
+
     int hash = functionHash(size, user->mail);
-    if (usersHash[hash]){
+    if (hashTable->users[hash]){
         int i = 1;
-        while (usersHash[hash]){
+        while (hashTable->users[hash]){
             hash = (hash + i) % size;
             i++;
         }
     }
-    usersHash[hash] = user;
+    hashTable->users[hash] = user;
 }
 
-void seeUserHash(User** usersHash, int size){
+void seeHashTable(HashTable* hashTable, int size){
     for (int i = 0; i < size; i++){
-        if (usersHash[i]){
+        if (hashTable->users[i]){
             printf("Espacio: %d\n", i);
-            printf("Mail: %s\n", usersHash[i]->mail);
-            printf("Password: %s\n", usersHash[i]->password);
-            printf("Nombre: %s\n", usersHash[i]->info->name);
-            printf("Edad: %d\n", usersHash[i]->info->old);
-            printf("Genero: %c\n", usersHash[i]->info->gender);
-            printf("Peso: %f\n", usersHash[i]->info->weight);
-            printf("Altura: %d\n", usersHash[i]->info->height);
+            printf("Mail: %s\n", hashTable->users[i]->mail);
+            printf("Password: %s\n", hashTable->users[i]->password);
+            printf("Nombre: %s\n", hashTable->users[i]->info->name);
+            printf("Edad: %d\n", hashTable->users[i]->info->old);
+            printf("Genero: %c\n", hashTable->users[i]->info->gender);
+            printf("Peso: %f\n", hashTable->users[i]->info->weight);
+            printf("Altura: %d\n", hashTable->users[i]->info->height);
             for (int j = 0; j < ACTIVITY_AMOUNT; j++){
-                printf("Distancia %d: %d\n", j, usersHash[i]->recordsDistance[j]);
+                printf("Distancia %d: %d\n", j, hashTable->users[i]->recordsDistance[j]);
             }
             for (int j = 0; j < ACTIVITY_AMOUNT; j++){
-                printf("Calorias %d: %d\n", j, usersHash[i]->recordsCalories[j]);
+                printf("Calorias %d: %d\n", j, hashTable->users[i]->recordsCalories[j]);
             }
         }
     }

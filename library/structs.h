@@ -38,4 +38,11 @@ typedef struct user{
    InfoUser* info;
 }User;
 
+typedef struct hashTable{
+    User** users;
+    int amount;
+    int max;
+}HashTable;
+
+
 #endif
