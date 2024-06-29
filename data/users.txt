@@ -1,1 +1,2 @@
 0|correo|password|nombre|19|m|62.000000|182|0,0,0,|0,0,0,
+1|correoDaniel|passwordDaniel|Daniel XD|18|m|62.000000|182|150,0,300,|40,0,0,

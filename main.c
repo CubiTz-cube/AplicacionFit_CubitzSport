@@ -30,18 +30,17 @@ int main(){
     
     Font fontLekton = LoadFont("public/fonts/Lekton-Regular.ttf");
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
+	int actualUser = 1;//-1;
 
-    int page = 3;
+    int page = 4;
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);
         else if (page == 1) layer_register(&page, &fontLekton, &fontAldrich);
         else if (page == 2) layer_menu(&page, &fontLekton, &fontAldrich);
 		else if (page == 3) layer_addActivity(&page, &fontLekton, &fontAldrich);
-		else if (page == 4) layer_profile(&page, &fontLekton, &fontAldrich);
+		else if (page == 4) layer_profile(&page, &fontLekton, &fontAldrich, &actualUser, hashTableUsers);
 		else if (page == 5) layer_stadistic(&page, &fontLekton, &fontAldrich);
-				
-		//GuiFloatBox((Rectangle){ 55, 40, 135, 20 }, "= ", &result, -2000000.0, 2000000.0, false);
 	}
 
 	UnloadFont(fontLekton);
@@ -52,5 +51,5 @@ int main(){
 
 	freeAllNodesActivity(activities);
 	freeHashTable(hashTableUsers, USERS_AMOUNT);
-	//CloseWindow();
+	CloseWindow();
 }
