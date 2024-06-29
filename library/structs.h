@@ -16,8 +16,8 @@ typedef struct infoUser{
    char gender;
    float weight; // En kg
    int height; // En cm
-   float BMI; // Indice de masa corporal
-    int BFP; // Indice de grasa corporal
+   float BMI; // Indice de masa muscular
+    int BFP; // Porcentaje grasa corporal
 }InfoUser;
 
 typedef struct nodeActivity

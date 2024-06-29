@@ -94,6 +94,15 @@ User** loadUsers(int size, char* filePath){
                 addUser->recordsCalories[j] = atoi(token);
                 token = strtok(NULL, ",");
             }
+
+            addUser->info->BMI = addUser->info->weight / (addUser->info->height/100.0);
+
+            if (addUser->info->gender == 'm'){
+                addUser->info->BFP = 1.2 * addUser->info->BMI + 0.23 * addUser->info->old - 10.8 - 5.4;
+            }else{
+                addUser->info->BFP = 1.2 * addUser->info->BMI + 0.23 * addUser->info->old - 10.8 * 2 - 5.4;
+            } 
+
             usersHash[loadSpace] = addUser;
         }
     }else{
