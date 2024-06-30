@@ -10,6 +10,7 @@
 #define SCREEN_HEIGHT 720
 
 #define ACTIVITY_AMOUNT 3
+#define ACTIVITY_NAMES "Correr;Voley;Natacion"
 
 #define PAGECONFIG_H
 
@@ -63,7 +64,7 @@ void GuiTextInputLine(Rectangle bounds, char *text, int textMaxSize, bool *secre
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
 }
 
-void GuiTextInputLineInt(Rectangle bounds, int *changeInt, int textMaxSize, bool *secretViewActive){
+void GuiTextInputLineInt(Rectangle bounds, int *changeInt, int intMaxSize){
     #if !defined(RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT)
         #define RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT      24
     #endif
@@ -87,22 +88,8 @@ void GuiTextInputLineInt(Rectangle bounds, int *changeInt, int textMaxSize, bool
     textBoxBounds.y = bounds.y;
     textBoxBounds.width = bounds.width;
     textBoxBounds.height = bounds.height;
-    
-    char textStr[100] = {0};
-    sprintf(textStr, "%d", *changeInt);
 
-    if (secretViewActive != NULL)
-    {
-        static char stars[] = "****************";
-        if (GuiTextBox(RAYGUI_CLITERAL(Rectangle){ textBoxBounds.x, textBoxBounds.y, textBoxBounds.width - 4 - RAYGUI_TEXTINPUTBOX_HEIGHT, textBoxBounds.height },
-            ((*secretViewActive == 1) || textEditMode)? textStr : stars, textMaxSize, textEditMode)) textEditMode = !textEditMode;
-
-        GuiToggle(RAYGUI_CLITERAL(Rectangle){ textBoxBounds.x + textBoxBounds.width - RAYGUI_TEXTINPUTBOX_HEIGHT, textBoxBounds.y, RAYGUI_TEXTINPUTBOX_HEIGHT, RAYGUI_TEXTINPUTBOX_HEIGHT }, (*secretViewActive == 1)? "#44#" : "#45#", secretViewActive);
-    }
-    else
-    {
-        if (GuiTextBox(textBoxBounds, textStr, textMaxSize, textEditMode)) textEditMode = !textEditMode;
-    }
+    if (GuiValueBox(textBoxBounds, NULL, changeInt, 0, intMaxSize, textEditMode)) textEditMode = !textEditMode;
 
     int prevBtnTextAlignment = GuiGetStyle(BUTTON, TEXT_ALIGNMENT);
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
@@ -110,9 +97,8 @@ void GuiTextInputLineInt(Rectangle bounds, int *changeInt, int textMaxSize, bool
     if (result >= 0) textEditMode = false;
 
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
-    *changeInt = atoi(textStr);
 }
-void GuiTextInputLineInt2(Rectangle bounds, int *changeInt, int textMaxSize, bool *secretViewActive){
+void GuiTextInputLineInt2(Rectangle bounds, int *changeInt, int intMaxSize){
     #if !defined(RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT)
         #define RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT      24
     #endif
@@ -136,22 +122,8 @@ void GuiTextInputLineInt2(Rectangle bounds, int *changeInt, int textMaxSize, boo
     textBoxBounds.y = bounds.y;
     textBoxBounds.width = bounds.width;
     textBoxBounds.height = bounds.height;
-    
-    char textStr[100] = {0};
-    sprintf(textStr, "%d", *changeInt);
 
-    if (secretViewActive != NULL)
-    {
-        static char stars[] = "****************";
-        if (GuiTextBox(RAYGUI_CLITERAL(Rectangle){ textBoxBounds.x, textBoxBounds.y, textBoxBounds.width - 4 - RAYGUI_TEXTINPUTBOX_HEIGHT, textBoxBounds.height },
-            ((*secretViewActive == 1) || textEditMode)? textStr : stars, textMaxSize, textEditMode)) textEditMode = !textEditMode;
-
-        GuiToggle(RAYGUI_CLITERAL(Rectangle){ textBoxBounds.x + textBoxBounds.width - RAYGUI_TEXTINPUTBOX_HEIGHT, textBoxBounds.y, RAYGUI_TEXTINPUTBOX_HEIGHT, RAYGUI_TEXTINPUTBOX_HEIGHT }, (*secretViewActive == 1)? "#44#" : "#45#", secretViewActive);
-    }
-    else
-    {
-        if (GuiTextBox(textBoxBounds, textStr, textMaxSize, textEditMode)) textEditMode = !textEditMode;
-    }
+    if (GuiValueBox(textBoxBounds, NULL, changeInt, 0, intMaxSize, textEditMode)) textEditMode = !textEditMode;
 
     int prevBtnTextAlignment = GuiGetStyle(BUTTON, TEXT_ALIGNMENT);
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
@@ -159,10 +131,9 @@ void GuiTextInputLineInt2(Rectangle bounds, int *changeInt, int textMaxSize, boo
     if (result >= 0) textEditMode = false;
 
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
-    *changeInt = atoi(textStr);
 }
 
-void GuiTextInputLineFloat(Rectangle bounds, float *changeFloat, int textMaxSize, bool *secretViewActive){
+void GuiTextInputLineFloat(Rectangle bounds, float *changeFloat, int textMaxSize){
     #if !defined(RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT)
         #define RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT      24
     #endif
@@ -190,18 +161,7 @@ void GuiTextInputLineFloat(Rectangle bounds, float *changeFloat, int textMaxSize
     char textStr[100] = {0};
     sprintf(textStr, "%f", *changeFloat);
 
-    if (secretViewActive != NULL)
-    {
-        static char stars[] = "****************";
-        if (GuiTextBox(RAYGUI_CLITERAL(Rectangle){ textBoxBounds.x, textBoxBounds.y, textBoxBounds.width - 4 - RAYGUI_TEXTINPUTBOX_HEIGHT, textBoxBounds.height },
-            ((*secretViewActive == 1) || textEditMode)? textStr : stars, textMaxSize, textEditMode)) textEditMode = !textEditMode;
-
-        GuiToggle(RAYGUI_CLITERAL(Rectangle){ textBoxBounds.x + textBoxBounds.width - RAYGUI_TEXTINPUTBOX_HEIGHT, textBoxBounds.y, RAYGUI_TEXTINPUTBOX_HEIGHT, RAYGUI_TEXTINPUTBOX_HEIGHT }, (*secretViewActive == 1)? "#44#" : "#45#", secretViewActive);
-    }
-    else
-    {
-        if (GuiTextBox(textBoxBounds, textStr, textMaxSize, textEditMode)) textEditMode = !textEditMode;
-    }
+    if (GuiTextBox(textBoxBounds, textStr, textMaxSize, textEditMode)) textEditMode = !textEditMode;
 
     int prevBtnTextAlignment = GuiGetStyle(BUTTON, TEXT_ALIGNMENT);
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
@@ -210,6 +170,23 @@ void GuiTextInputLineFloat(Rectangle bounds, float *changeFloat, int textMaxSize
 
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
     *changeFloat = atof(textStr);
+}
+
+void GuiDropdownBoxEdit(Rectangle bounds, const char *text, int *active)
+{
+    #if !defined(RAYGUI_COMBOBOX_HEIGHT)
+        #define RAYGUI_COMBOBOX_HEIGHT              24
+    #endif
+    #if !defined(RAYGUI_COMBOBOX_BUTTON_PADDING)
+        #define RAYGUI_COMBOBOX_BUTTON_PADDING      12
+    #endif
+    static bool editMode = false;
+
+    int result = -1;
+
+    if (GuiDropdownBox(bounds, text, active, editMode)) editMode = !editMode;
+    
+    if (result >= 0) editMode = false;
 }
 
 #endif

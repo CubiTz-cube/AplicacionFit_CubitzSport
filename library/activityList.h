@@ -2,7 +2,7 @@
 #define LIST_H
 #include "structs.h"
 
-NodeActivity* createNodeActivity(int userId, Time duration, Time startTime, int distance, int calories){
+NodeActivity* createNodeActivity(int userId, Time duration, Date date, int distance, int calories){
     NodeActivity* newN = (NodeActivity*)malloc(sizeof(NodeActivity));
     if (!newN) {
         printf("Error: Reservar memoria para el nodo de actividad.\n");
@@ -10,16 +10,16 @@ NodeActivity* createNodeActivity(int userId, Time duration, Time startTime, int 
     }
     newN->userId = userId;
     newN->duration = duration;
-    newN->startTime = startTime;
+    newN->date = date;
     newN->distance = distance;
     newN->calories = calories;
     newN->next = NULL;
 
     return newN;
 }
-
-void addNodeActivity(NodeActivity** head, int userId, Time duration, Time startTime, int distance, int calories){
-    NodeActivity* newN = createNodeActivity(userId, duration, startTime, distance, calories);
+// Recibe la cabecera de una lista enlazada (No de un array de listas enlazadas) y le agrega un nodo.
+void addNodeActivity(NodeActivity** head, int userId, Time duration, Date date, int distance, int calories){
+    NodeActivity* newN = createNodeActivity(userId, duration, date, distance, calories);
     if (!newN) return;
 
     if (!*head) {
@@ -52,7 +52,7 @@ void printNodesActivity(NodeActivity* head){
         printf("\n");
         printf("Usuario: %d\n", aux->userId);
         printf("Duracion: %d:%d:%d\n", aux->duration.hour, aux->duration.minute, aux->duration.second);
-        printf("Inicio: %d:%d:%d\n", aux->startTime.hour, aux->startTime.minute, aux->startTime.second);
+        printf("Inicio: %d:%d:%d %d/%d/%d\n", aux->date.hour, aux->date.minute, aux->date.second, aux->date.day, aux->date.month, aux->date.year);
         printf("Distancia: %d\n", aux->distance);
         printf("Calorias: %d\n", aux->calories);
         aux = aux->next;
@@ -92,9 +92,9 @@ void loadNodesActivity(NodeActivity** activities, char* filePath){
         printf("Error: No se pudo abrir el archivo %s.\n", filePath);
         return;
     }
-    int userId, hour, minute, second, distance, calories;
+    int userId, year, month, day, hour, minute, second, distance, calories;
     char duration[20];
-    char startTime[20];
+    char date[20];
     char line[255];
 
     while (fgets(line, sizeof(line), file)){
@@ -114,7 +114,7 @@ void loadNodesActivity(NodeActivity** activities, char* filePath){
                 strcpy(duration, token);
                 break;
             case 3:
-                strcpy(startTime, token);
+                strcpy(date, token);
                 break;
             case 4:
                 distance = atoi(token);
@@ -127,22 +127,28 @@ void loadNodesActivity(NodeActivity** activities, char* filePath){
             i++;
         }
         token = strtok(duration, ",");
-        hour = atoi(token);
+        second = atoi(token);
         token = strtok(NULL, ",");
         minute = atoi(token);
         token = strtok(NULL, ",");
-        second = atoi(token);
-        Time duration = {hour, minute, second};
+        hour= atoi(token);
+        Time duration = {second, minute, hour};
 
-        token = strtok(startTime, ",");
-        hour = atoi(token);
+        token = strtok(date, ",");
+        second = atoi(token);
         token = strtok(NULL, ",");
         minute = atoi(token);
         token = strtok(NULL, ",");
-        second = atoi(token);
-        Time startTime = {hour, minute, second};
+        hour = atoi(token);
+        token = strtok(NULL, ",");
+        day = atoi(token);
+        token = strtok(NULL, ",");
+        month = atoi(token);
+        token = strtok(NULL, ",");
+        year = atoi(token);
+        Date date = {second, minute, hour, day, month, year};
 
-        addNodeActivity(&activities[loadSpace], userId, duration, startTime, distance, calories);
+        addNodeActivity(&activities[loadSpace], userId, duration, date, distance, calories);
     }
     fclose(file);
 }
@@ -157,7 +163,7 @@ void saveNodesActivity(NodeActivity** activities, char* filePath){
     for (int i = 0; i < ACTIVITY_AMOUNT; i++){
         NodeActivity* aux = activities[i];
         while (aux) {
-            fprintf(file, "%d|%d|%d,%d,%d|%d,%d,%d|%d|%d\n", i, aux->userId, aux->duration.hour, aux->duration.minute, aux->duration.second, aux->startTime.hour, aux->startTime.minute, aux->startTime.second, aux->distance, aux->calories);
+            fprintf(file, "%d|%d|%d,%d,%d|%d,%d,%d,%d,%d,%d|%d|%d\n", i, aux->duration.second, aux->userId, aux->duration.minute, aux->duration.hour, aux->date.second, aux->date.minute, aux->date.hour, aux->date.day, aux->date.month, aux->date.year, aux->distance, aux->calories);
             aux = aux->next;
         }
     }

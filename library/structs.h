@@ -5,10 +5,19 @@
 
 typedef struct time
 {
-    int hour;
-    int minute;
     int second;
+    int minute;
+    int hour;
 }Time;
+
+typedef struct date{
+    int second;
+    int minute;
+    int hour;
+    int day;
+    int month;
+    int year;
+}Date;
 
 typedef struct infoUser{
     char name[50];
@@ -24,7 +33,7 @@ typedef struct nodeActivity
 {
     int userId; // La posicion de usuario en la tabla de hash
     Time duration;
-    Time startTime;
+    Date date;
     int distance; // En m
     int calories;
     struct nodeActivity* next;
