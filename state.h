@@ -188,55 +188,6 @@ void GuiDropdownBoxEdit(Rectangle bounds, const char *text, int *active)
     
     if (result >= 0) editMode = false;
 }
-/*
-void GuiTextInputLineTime(Rectangle bounds, Time* times, int intMaxSize){
-    #if !defined(RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT)
-        #define RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT      24
-    #endif
-    #if !defined(RAYGUI_TEXTINPUTBOX_BUTTON_PADDING)
-        #define RAYGUI_TEXTINPUTBOX_BUTTON_PADDING     12
-    #endif
-    #if !defined(RAYGUI_TEXTINPUTBOX_HEIGHT)
-        #define RAYGUI_TEXTINPUTBOX_HEIGHT             26
-    #endif
-    // Used to enable text edit mode
-    // WARNING: No more than one GuiTextInputBox() should be open at the same time
-    static bool textEditModeSeg = false;
-    static bool textEditModeMin = false;
-    static bool textEditModeHour = false;
 
-    int result = -1;
-
-    int messageInputHeight = (int)bounds.height - RAYGUI_WINDOWBOX_STATUSBAR_HEIGHT - GuiGetStyle(STATUSBAR, BORDER_WIDTH);
-
-    Rectangle textBoxBoundsSeg = { 0 };
-    textBoxBoundsSeg.x = bounds.x;
-    textBoxBoundsSeg.y = bounds.y;
-    textBoxBoundsSeg.width = bounds.width/3;
-    textBoxBoundsSeg.height = bounds.height;
-    Rectangle textBoxBoundsMin = { 0 };
-    textBoxBoundsMin.x = bounds.x + bounds.width/3;
-    textBoxBoundsMin.y = bounds.y;
-    textBoxBoundsMin.width = bounds.width/3;
-    textBoxBoundsMin.height = bounds.height;
-    Rectangle textBoxBoundsHour = { 0 };
-    textBoxBoundsHour.x = bounds.x + 2*bounds.width/3;
-    textBoxBoundsHour.y = bounds.y;
-    textBoxBoundsHour.width = bounds.width/3;
-    textBoxBoundsHour.height = bounds.height;
-    
-    if (GuiValueBox(textBoxBoundsSeg, NULL, times->second , 0, intMaxSize, textEditModeSeg)) textEditModeSeg = !textEditModeSeg;
-    if (GuiValueBox(textBoxBoundsMin, NULL, times->minute, 0, intMaxSize, textEditModeMin)) textEditModeMin = !textEditModeMin;
-    if (GuiValueBox(textBoxBoundsHour, NULL, times->hour, 0, intMaxSize, textEditModeHour)) textEditModeHour = !textEditModeHour;
-
-    int prevBtnTextAlignment = GuiGetStyle(BUTTON, TEXT_ALIGNMENT);
-    GuiSetStyle(BUTTON, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
-
-    if (result >= 0) textEditModeSeg = false;
-    if (result >= 0) textEditModeMin = false;
-    if (result >= 0) textEditModeHour = false;
-
-    GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
-}*/
 
 #endif
