@@ -4,7 +4,6 @@
 #include "library/raylib.h"
 #define RAYGUI_IMPLEMENTATION
 #include "library/raygui.h"
-#include "library/structs.h"
 
 // Definir las constantes globales
 #define SCREEN_WIDTH 1280
@@ -189,7 +188,7 @@ void GuiDropdownBoxEdit(Rectangle bounds, const char *text, int *active)
     
     if (result >= 0) editMode = false;
 }
-
+/*
 void GuiTextInputLineTime(Rectangle bounds, Time* times, int intMaxSize){
     #if !defined(RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT)
         #define RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT      24
@@ -238,6 +237,6 @@ void GuiTextInputLineTime(Rectangle bounds, Time* times, int intMaxSize){
     if (result >= 0) textEditModeHour = false;
 
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
-}
+}*/
 
 #endif
