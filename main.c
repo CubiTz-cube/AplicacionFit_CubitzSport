@@ -39,7 +39,7 @@ int main(){
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);
         else if (page == 1) layer_register(&page, &fontLekton, &fontAldrich);
         else if (page == 2) layer_menu(&page, &fontLekton, &fontAldrich, actualUser, activities);
-		else if (page == 3) layer_addActivity(&page, &fontLekton, &fontAldrich, actualUser, activities);
+		else if (page == 3) layer_addActivity(&page, &fontLekton, &fontAldrich, actualUser, hashTableUsers, activities);
 		else if (page == 4) layer_profile(&page, &fontLekton, &fontAldrich, &actualUser, hashTableUsers);
 		else if (page == 5) layer_stadistic(&page, &fontLekton, &fontAldrich);
 	}

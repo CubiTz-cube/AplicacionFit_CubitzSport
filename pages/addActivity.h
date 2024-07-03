@@ -143,7 +143,7 @@ void GuiTextInputLineDate(Rectangle bounds, Date* dates){
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
 }
 
-void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, NodeActivity* activities[ACTIVITY_AMOUNT]){
+void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, HashTable* hashTableUsers, NodeActivity* activities[ACTIVITY_AMOUNT]){
     static int distance = 0;
     static int calories = 0;
     static int activitySelect = 0;
@@ -166,6 +166,12 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
         if (distance == 0 || calories == 0 || (time.hour == 0 && time.minute == 0 && time.second == 0) || date.day == 0 || date.month == 0 || date.year == 0){
             strcpy(message, "Faltan campos por llenar");
         }else{
+            if (distance > hashTableUsers->users[actualUser]->recordsDistance[activitySelect]){
+                hashTableUsers->users[actualUser]->recordsDistance[activitySelect] = distance;
+            }
+            if (calories > hashTableUsers->users[actualUser]->recordsCalories[activitySelect]){
+                hashTableUsers->users[actualUser]->recordsCalories[activitySelect] = calories;
+            }
             addNodeActivity(&activities[activitySelect], actualUser, time, date, distance, calories, activitySelect);
             strcpy(message, "Actividad agregada");
         }
