@@ -18,6 +18,7 @@ void layer_profile(int* page, Font* fontLekton, Font* fontAldrich, int* actualUs
 
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
     if (GuiButton((Rectangle){ 300, 50, 150, 40 }, "Volver al menu")) *page = 2;
+    
     // Input de User Info
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
@@ -43,14 +44,21 @@ void layer_profile(int* page, Font* fontLekton, Font* fontAldrich, int* actualUs
     GuiDrawText("Altura: ", (Rectangle){ 0, 120+50*5, 300, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
     GuiTextInputLineInt2((Rectangle){ 200, 120+50*5, 300, 30 }, &hashTableUsers->users[*actualUser]->info->height, 500);
 
-    hashTableUsers->users[*actualUser]->info->BMI = hashTableUsers->users[*actualUser]->info->weight / (hashTableUsers->users[*actualUser]->info->height/100.0);
+    float resultBMI = hashTableUsers->users[*actualUser]->info->weight / (hashTableUsers->users[*actualUser]->info->height/100.0);
+    if (resultBMI > 0)
+    hashTableUsers->users[*actualUser]->info->BMI = resultBMI;
     sprintf(BMI, "Indice de masa muscular: %f", hashTableUsers->users[*actualUser]->info->BMI);
     GuiDrawText(BMI, (Rectangle){ 0, 120+50*6, 800, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
 
+    int resultBFP = 0;
     if (hashTableUsers->users[*actualUser]->info->gender == 'm'){
-        hashTableUsers->users[*actualUser]->info->BFP = 1.2 * hashTableUsers->users[*actualUser]->info->BMI + 0.23 * hashTableUsers->users[*actualUser]->info->old - 10.8 - 5.4;
+        resultBFP = 1.2 * hashTableUsers->users[*actualUser]->info->BMI + 0.23 * hashTableUsers->users[*actualUser]->info->old - 10.8 - 5.4;;
+        if (resultBFP > 0)
+        hashTableUsers->users[*actualUser]->info->BFP = resultBFP;
     }else{
-        hashTableUsers->users[*actualUser]->info->BFP = 1.2 * hashTableUsers->users[*actualUser]->info->BMI + 0.23 * hashTableUsers->users[*actualUser]->info->old - 10.8 * 2 - 5.4;
+        resultBFP = 1.2 * hashTableUsers->users[*actualUser]->info->BMI + 0.23 * hashTableUsers->users[*actualUser]->info->old - 10.8 * 2 - 5.4;
+        if (resultBFP > 0)
+        hashTableUsers->users[*actualUser]->info->BFP = resultBFP;
     }
     sprintf(BFP, "Indice de grasa corporal: %d", hashTableUsers->users[*actualUser]->info->BFP);
     GuiDrawText(BFP, (Rectangle){ 0, 120+50*7, 800, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });

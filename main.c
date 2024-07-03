@@ -9,13 +9,14 @@
 #include "pages/profile.h"
 #include "pages/stadistic.h"
 
-#define USERS_AMOUNT 3
+#define USERS_AMOUNT 20
 
 int main(){	
 	HashTable* hashTableUsers = createHashTable(USERS_AMOUNT);
 	if (!hashTableUsers) return -1;
-	hashTableUsers->users = loadUsers(USERS_AMOUNT, "data/users.txt");
-	if (!hashTableUsers->users) return -1;
+	User** usersLoad = loadUsers(USERS_AMOUNT, "data/users.txt");
+	if (!usersLoad) return -1;
+	hashTableUsers->users = usersLoad;
 	
 	NodeActivity* activities[ACTIVITY_AMOUNT];
 	for (int i = 0; i < ACTIVITY_AMOUNT; i++) activities[i] = NULL;
@@ -31,8 +32,8 @@ int main(){
     Font fontLekton = LoadFont("public/fonts/Lekton-Regular.ttf");
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
 	int actualUser = 1;//-1;
-
-    int page = 3;
+	
+    int page = 1;
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);

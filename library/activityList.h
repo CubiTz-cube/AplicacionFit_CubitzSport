@@ -103,6 +103,9 @@ void loadNodesActivity(NodeActivity** activities, char* filePath){
 
         char* token = strtok(line, "|");
         while (token) {
+            if (strcmp(token, "\n") == 0){
+                return;
+            }
             switch (i){
             case 0:
                 loadSpace = atoi(token);

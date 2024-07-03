@@ -9,8 +9,8 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
-#define ACTIVITY_AMOUNT 3
-#define ACTIVITY_NAMES "Correr;Voley;Natacion"
+#define ACTIVITY_AMOUNT 10
+#define ACTIVITY_NAMES "Correr;Voley;Natacion;Yoga;Caminar;Futbol;Basket;Tenis;Gimnasio;Ciclismo"
 
 #define PAGECONFIG_H
 
@@ -64,7 +64,7 @@ void GuiTextInputLine(Rectangle bounds, char *text, int textMaxSize, bool *secre
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
 }
 
-void GuiTextInputLineInt(Rectangle bounds, int *changeInt, int intMaxSize){
+int GuiTextInputLineInt(Rectangle bounds, int *changeInt, int intMaxSize){
     #if !defined(RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT)
         #define RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT      24
     #endif
@@ -89,7 +89,8 @@ void GuiTextInputLineInt(Rectangle bounds, int *changeInt, int intMaxSize){
     textBoxBounds.width = bounds.width;
     textBoxBounds.height = bounds.height;
 
-    if (GuiValueBox(textBoxBounds, NULL, changeInt, 0, intMaxSize, textEditMode)) textEditMode = !textEditMode;
+    int pressEnter = GuiValueBox(textBoxBounds, NULL, changeInt, 0, intMaxSize, textEditMode);
+    if (pressEnter) textEditMode = !textEditMode;
 
     int prevBtnTextAlignment = GuiGetStyle(BUTTON, TEXT_ALIGNMENT);
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, TEXT_ALIGN_CENTER);
@@ -97,6 +98,7 @@ void GuiTextInputLineInt(Rectangle bounds, int *changeInt, int intMaxSize){
     if (result >= 0) textEditMode = false;
 
     GuiSetStyle(BUTTON, TEXT_ALIGNMENT, prevBtnTextAlignment);
+    return pressEnter;
 }
 void GuiTextInputLineInt2(Rectangle bounds, int *changeInt, int intMaxSize){
     #if !defined(RAYGUI_TEXTINPUTBOX_BUTTON_HEIGHT)

@@ -46,6 +46,9 @@ User** loadUsers(int size, char* filePath){
 
             char* token = strtok(line, "|");
             while (token != NULL) {
+                if (strcmp(token, "\n") == 0){
+                    return usersHash;
+                }
                 switch (i){
                 case 0:
                     loadSpace = atoi(token);
