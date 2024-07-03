@@ -36,6 +36,7 @@ typedef struct nodeActivity
     Date date;
     int distance; // En m
     int calories;
+    int type;
     struct nodeActivity* next;
 }NodeActivity;
 

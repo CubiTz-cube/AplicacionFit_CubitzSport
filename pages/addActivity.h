@@ -158,6 +158,7 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
     GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 32);
     GuiDrawText("CubiTz Anadir \nactividad", (Rectangle){ 0, 0, 400, 100 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 15);
 
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
     if (GuiButton((Rectangle){ 300, 50, 150, 40 }, "Volver al menu")) *page = 2;
@@ -165,7 +166,7 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
         if (distance == 0 || calories == 0 || (time.hour == 0 && time.minute == 0 && time.second == 0) || date.day == 0 || date.month == 0 || date.year == 0){
             strcpy(message, "Faltan campos por llenar");
         }else{
-            addNodeActivity(&activities[activitySelect], actualUser, time, date, distance, calories);
+            addNodeActivity(&activities[activitySelect], actualUser, time, date, distance, calories, activitySelect);
             strcpy(message, "Actividad agregada");
         }
     }
@@ -182,11 +183,11 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
     GuiDrawText("Fecha y hora de inicio: ", (Rectangle){ 0, 120+80, 500, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
     GuiDrawText("Tiempo de duracion: ", (Rectangle){ 0, 120+80*2, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
 
-    GuiDrawText("Calorias: ", (Rectangle){ 0, 120+80*3, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
-    GuiTextInputLineInt((Rectangle){ 200, 120+80*3, 300, 30 }, &calories, 20000);
+    GuiDrawText("Calorias (kc): ", (Rectangle){ 0, 120+80*3, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiTextInputLineInt((Rectangle){ 250, 120+80*3, 300, 30 }, &calories, 20000);
 
-    GuiDrawText("Distacia: ", (Rectangle){ 0, 120+80*4, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
-    GuiTextInputLineInt2((Rectangle){ 200, 120+80*4, 300, 30 }, &distance, 20000);
+    GuiDrawText("Distacia (m): ", (Rectangle){ 0, 120+80*4, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiTextInputLineInt2((Rectangle){ 250, 120+80*4, 300, 30 }, &distance, 20000);
     
     GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
     GuiTextInputLineDate((Rectangle){ 400, 120+80, 600, 30 }, &date);

@@ -2,7 +2,7 @@
 #define LIST_H
 #include "structs.h"
 
-NodeActivity* createNodeActivity(int userId, Time duration, Date date, int distance, int calories){
+NodeActivity* createNodeActivity(int userId, Time duration, Date date, int distance, int calories, int type){
     NodeActivity* newN = (NodeActivity*)malloc(sizeof(NodeActivity));
     if (!newN) {
         printf("Error: Reservar memoria para el nodo de actividad.\n");
@@ -13,13 +13,14 @@ NodeActivity* createNodeActivity(int userId, Time duration, Date date, int dista
     newN->date = date;
     newN->distance = distance;
     newN->calories = calories;
+    newN->type = type;
     newN->next = NULL;
 
     return newN;
 }
 // Recibe la cabecera de una lista enlazada (No de un array de listas enlazadas) y le agrega un nodo.
-void addNodeActivity(NodeActivity** head, int userId, Time duration, Date date, int distance, int calories){
-    NodeActivity* newN = createNodeActivity(userId, duration, date, distance, calories);
+void addNodeActivity(NodeActivity** head, int userId, Time duration, Date date, int distance, int calories, int type){
+    NodeActivity* newN = createNodeActivity(userId, duration, date, distance, calories, type);
     if (!newN) return;
 
     if (!*head) {
@@ -50,7 +51,7 @@ void printNodesActivity(NodeActivity* head){
     NodeActivity* aux = head;
     while (aux) {
         printf("\n");
-        printf("Usuario: %d\n", aux->userId);
+        printf("Usuario: %d Actividad\n", aux->userId, aux->type);
         printf("Duracion: %d:%d:%d\n", aux->duration.hour, aux->duration.minute, aux->duration.second);
         printf("Inicio: %d:%d:%d %d/%d/%d\n", aux->date.hour, aux->date.minute, aux->date.second, aux->date.day, aux->date.month, aux->date.year);
         printf("Distancia: %d\n", aux->distance);
@@ -62,7 +63,7 @@ void printNodesActivity(NodeActivity* head){
 void seeAllNodesActivity(NodeActivity** activities){
     for (int i = 0; i < ACTIVITY_AMOUNT; i++){
         printf("\n");
-        printf("ACTIVITY %d\n", i+1);
+        printf("ACTIVITY %d\n", i);
         printNodesActivity(activities[i]);
     }
 }
@@ -151,7 +152,7 @@ void loadNodesActivity(NodeActivity** activities, char* filePath){
         year = atoi(token);
         Date date = {second, minute, hour, day, month, year};
 
-        addNodeActivity(&activities[loadSpace], userId, duration, date, distance, calories);
+        addNodeActivity(&activities[loadSpace], userId, duration, date, distance, calories, loadSpace);
     }
     fclose(file);
 }
@@ -166,7 +167,7 @@ void saveNodesActivity(NodeActivity** activities, char* filePath){
     for (int i = 0; i < ACTIVITY_AMOUNT; i++){
         NodeActivity* aux = activities[i];
         while (aux) {
-            fprintf(file, "%d|%d|%d,%d,%d|%d,%d,%d,%d,%d,%d|%d|%d\n", i, aux->duration.second, aux->userId, aux->duration.minute, aux->duration.hour, aux->date.second, aux->date.minute, aux->date.hour, aux->date.day, aux->date.month, aux->date.year, aux->distance, aux->calories);
+            fprintf(file, "%d|%d|%d,%d,%d|%d,%d,%d,%d,%d,%d|%d|%d\n", i, aux->userId, aux->duration.second, aux->duration.minute, aux->duration.hour, aux->date.second, aux->date.minute, aux->date.hour, aux->date.day, aux->date.month, aux->date.year, aux->distance, aux->calories);
             aux = aux->next;
         }
     }
