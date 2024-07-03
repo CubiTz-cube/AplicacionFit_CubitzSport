@@ -11,6 +11,7 @@
 
 #define ACTIVITY_AMOUNT 10
 #define ACTIVITY_NAMES "Correr;Voley;Natacion;Yoga;Caminar;Futbol;Basket;Tenis;Gimnasio;Ciclismo"
+#define ACTIVITY_METS {10, 8, 7, 5, 4, 9, 8, 7, 6, 8}
 
 #define PAGECONFIG_H
 

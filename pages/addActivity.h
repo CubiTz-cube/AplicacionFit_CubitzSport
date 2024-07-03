@@ -161,9 +161,17 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
     GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 15);
 
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    if (GuiButton((Rectangle){ 300, 50, 150, 40 }, "Volver al menu")) *page = 2;
+    if (GuiButton((Rectangle){ 300, 50, 150, 40 }, "Volver al menu")) {
+        *page = 2;
+        distance = -1;
+        calories = 0;
+        activitySelect = 0;
+        time = (Time){0, 0, 0};
+        date = (Date){0, 0, 0, 0, 0, 0};
+        strcpy(message, "");
+    }
     if (GuiButton((Rectangle){ 600, 120+50*5, 200, 60 }, "Agregar")){
-        if (distance == 0 || calories == 0 || (time.hour == 0 && time.minute == 0 && time.second == 0) || date.day == 0 || date.month == 0 || date.year == 0){
+        if (distance == 0 || (time.hour == 0 && time.minute == 0 && time.second == 0) || date.day == 0 || date.month == 0 || date.year == 0){
             strcpy(message, "Faltan campos por llenar");
         }else{
             if (distance > hashTableUsers->users[actualUser]->recordsDistance[activitySelect]){
@@ -172,6 +180,8 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
             if (calories > hashTableUsers->users[actualUser]->recordsCalories[activitySelect]){
                 hashTableUsers->users[actualUser]->recordsCalories[activitySelect] = calories;
             }
+            int met[ACTIVITY_AMOUNT] = ACTIVITY_METS;
+            calories = (int)(0.0175 * met[activitySelect] * hashTableUsers->users[actualUser]->info->weight)*(time.hour*60 + time.minute);
             addNodeActivity(&activities[activitySelect], actualUser, time, date, distance, calories, activitySelect);
             strcpy(message, "Actividad agregada");
         }
@@ -189,11 +199,10 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
     GuiDrawText("Fecha y hora de inicio: ", (Rectangle){ 0, 120+80, 500, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
     GuiDrawText("Tiempo de duracion: ", (Rectangle){ 0, 120+80*2, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
 
-    GuiDrawText("Calorias (kc): ", (Rectangle){ 0, 120+80*3, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
-    GuiTextInputLineInt((Rectangle){ 250, 120+80*3, 300, 30 }, &calories, 20000);
-
-    GuiDrawText("Distacia (m): ", (Rectangle){ 0, 120+80*4, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
-    GuiTextInputLineInt2((Rectangle){ 250, 120+80*4, 300, 30 }, &distance, 20000);
+    if (activitySelect == 0 || activitySelect == 2 || activitySelect == 4 || activitySelect == 9){
+        GuiDrawText("Distacia (m): ", (Rectangle){ 0, 120+80*3, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+        GuiTextInputLineInt2((Rectangle){ 250, 120+80*3, 300, 30 }, &distance, 20000);
+    }else distance = 0;
     
     GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
     GuiTextInputLineDate((Rectangle){ 400, 120+80, 600, 30 }, &date);

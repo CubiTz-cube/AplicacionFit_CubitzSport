@@ -13,6 +13,8 @@ void layer_stadistic(int* page, Font* fontLekton, Font* fontAldrich){
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
     if (GuiButton((Rectangle){ 500, 200, 150, 40 }, "Volver al menu")) *page = 2;
+
+    
 		
 	EndDrawing();
 }
