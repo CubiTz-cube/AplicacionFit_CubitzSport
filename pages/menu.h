@@ -35,22 +35,35 @@ void drawRecords(int* recordsD, int* recordsC){
 }
 
 void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, HashTable* hashTableUsers, NodeActivity* activities[ACTIVITY_AMOUNT]){
+    static char message[255] = "";
     BeginDrawing();
 
 	ClearBackground(RAYWHITE);
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
-    GuiDrawText("CubiTz MENU", (Rectangle){ 500, 0, 300, 100 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("CubiTz MENU", (Rectangle){ 0, 0, 300, 50 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
 
     //Botones
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    if (GuiButton((Rectangle){ 50, 200, 200, 40 }, "Anadir actividad")) {
+    if (GuiButton((Rectangle){ 50, 60, 200, 40 }, "Anadir actividad")) {
         *page = 3;
-        seeAllNodesActivity(activities);
+        message[0] = '\0';
     }
-    if (GuiButton((Rectangle){ 50, 250, 200, 40 }, "Perfil")) *page = 4;
-    if (GuiButton((Rectangle){ 50, 300, 200, 40 }, "Estadisticas")) *page = 5;
+    if (GuiButton((Rectangle){ 50, 60+50, 200, 40 }, "Perfil")) {
+        *page = 4;
+        message[0] = '\0';
+    }
+    if (GuiButton((Rectangle){ 50, 60+50*2, 200, 40 }, "Estadisticas")){ 
+        *page = 5;
+        message[0] = '\0';
+    }
+    if (GuiButton((Rectangle){ 50, 60+50*3, 200, 40 }, "Exportar/Importar")) {
+        *page = 6;
+        message[0] = '\0';
+    }
+
+    GuiDrawText(message, (Rectangle){ 600, 120+80*5, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
 
     //Actividades
     drawActivities(activities[0]);

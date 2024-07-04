@@ -8,8 +8,7 @@
 #include "pages/addActivity.h"
 #include "pages/profile.h"
 #include "pages/stadistic.h"
-
-#define USERS_AMOUNT 20
+#include "pages/importExport.h"
 
 int main(){	
 	HashTable* hashTableUsers = createHashTable(USERS_AMOUNT);
@@ -33,7 +32,7 @@ int main(){
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
 	int actualUser = 1;//-1;
 	
-    int page = 2;
+    int page = 6;
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);
@@ -41,7 +40,8 @@ int main(){
         else if (page == 2) layer_menu(&page, &fontLekton, &fontAldrich, actualUser, hashTableUsers, activities);
 		else if (page == 3) layer_addActivity(&page, &fontLekton, &fontAldrich, actualUser, hashTableUsers, activities);
 		else if (page == 4) layer_profile(&page, &fontLekton, &fontAldrich, &actualUser, hashTableUsers);
-		else if (page == 5) layer_stadistic(&page, &fontLekton, &fontAldrich);
+		else if (page == 5) layer_stadistic(&page, &fontLekton, &fontAldrich, actualUser, hashTableUsers, activities);
+		else if (page == 6) layer_importExport(&page, &fontLekton, &fontAldrich, actualUser, hashTableUsers, activities);
 	}
 
 	UnloadFont(fontLekton);

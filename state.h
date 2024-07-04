@@ -9,6 +9,8 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
+#define USERS_AMOUNT 20
+
 #define ACTIVITY_AMOUNT 10
 #define ACTIVITY_NAMES "Correr;Voley;Natacion;Yoga;Caminar;Futbol;Basket;Tenis;Gimnasio;Ciclismo"
 #define ACTIVITY_NAMESARRAY {"Correr","Voley","Natacion","Yoga","Caminar","Futbol","Basket","Tenis","Gimnasio","Ciclismo"}

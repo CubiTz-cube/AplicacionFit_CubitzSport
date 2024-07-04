@@ -175,4 +175,40 @@ void saveNodesActivity(NodeActivity** activities, char* filePath){
     fclose(file);
 }
 
+void exportNodesActivity(NodeActivity* activitie, char* filePath){
+    FILE* file = fopen(filePath, "w");
+    if (!file) {
+        printf("Error: No se pudo abrir el archivo %s.\n", filePath);
+        return;
+    }
+    NodeActivity* aux = activitie;
+    while (aux) {
+        fprintf(file, "Actividad: %d\nDuracion: %d:%d:%d\nFecha: %d/%d/%d a las %d:%d:%d\nDistancia: %d m\nCalorias: %d\n", 
+        aux->type, 
+        aux->duration.hour, aux->duration.minute, aux->duration.second, 
+        aux->date.day, aux->date.month, aux->date.year, aux->date.hour, aux->date.minute, aux->date.second, 
+        aux->distance, aux->calories
+        );
+        fprintf(file, "----------------------\n");
+        aux = aux->next;
+    }
+
+    fclose(file);
+}
+
+int importNodesActivity(NodeActivity** activities, char* filePath){
+    FILE* file = fopen(filePath, "r");
+    if (!file) {
+        printf("Error: No se pudo abrir el archivo %s.\n", filePath);
+        return 0;
+    }
+    int userId, year, month, day, hour, minute, second, distance, calories;
+    printf("Importando actividades...\n");
+    char line[255];
+    while (fgets(line, sizeof(line), file)){
+        printf("%s\n", line);
+    }
+    return 1;
+}
+
 #endif
