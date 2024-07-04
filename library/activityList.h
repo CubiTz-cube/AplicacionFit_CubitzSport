@@ -181,12 +181,14 @@ void exportNodesActivity(NodeActivity* activitie, char* filePath){
         printf("Error: No se pudo abrir el archivo %s.\n", filePath);
         return;
     }
+    char activityNames[50][ACTIVITY_AMOUNT] = ACTIVITY_NAMESARRAY;
     NodeActivity* aux = activitie;
     while (aux) {
-        fprintf(file, "Actividad: %d\nDuracion: %d:%d:%d\nFecha: %d/%d/%d a las %d:%d:%d\nDistancia: %d m\nCalorias: %d\n", 
-        aux->type, 
+        fprintf(file, "Actividad: %d (%s)\nDuracion: %d:%d:%d\nFecha: %d/%d/%d\nHora %d:%d:%d\nDistancia: %d m\nCalorias: %d\n", 
+        aux->type, activityNames[aux->type],
         aux->duration.hour, aux->duration.minute, aux->duration.second, 
-        aux->date.day, aux->date.month, aux->date.year, aux->date.hour, aux->date.minute, aux->date.second, 
+        aux->date.day, aux->date.month, aux->date.year, 
+        aux->date.hour, aux->date.minute, aux->date.second, 
         aux->distance, aux->calories
         );
         fprintf(file, "----------------------\n");
@@ -194,6 +196,23 @@ void exportNodesActivity(NodeActivity* activitie, char* filePath){
     }
 
     fclose(file);
+}
+
+void importFormat(char* line, char* token){
+    int i = 0;
+    int j = 0;
+
+    while (line[i] != ' '){
+        if (line[i] == '\n') return 0;
+        i++;
+    }
+    i++;
+    while (line[i] != ' ' && line[i] != '\n'){
+        token[j] = line[i];
+        i++;
+        j++;
+    }
+    token[j] = '\0';
 }
 
 int importNodesActivity(NodeActivity** activities, char* filePath){
@@ -206,7 +225,13 @@ int importNodesActivity(NodeActivity** activities, char* filePath){
     printf("Importando actividades...\n");
     char line[255];
     while (fgets(line, sizeof(line), file)){
-        printf("%s\n", line);
+        if (line[0] == '-'){
+            continue;
+        }
+        printf("%s", line);
+        char token[255];
+        importFormat(line, token);
+        printf("NUM %s\n", token);
     }
     return 1;
 }
