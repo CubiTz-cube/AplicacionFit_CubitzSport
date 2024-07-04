@@ -171,17 +171,19 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
         strcpy(message, "");
     }
     if (GuiButton((Rectangle){ 600, 120+50*5, 200, 60 }, "Agregar")){
-        if (distance == 0 || (time.hour == 0 && time.minute == 0 && time.second == 0) || date.day == 0 || date.month == 0 || date.year == 0){
+        if ((distance == 0 && (activitySelect == 0 || activitySelect == 2 || activitySelect == 4 || activitySelect == 9)) || (time.hour == 0 && time.minute == 0 && time.second == 0) || date.day == 0 || date.month == 0 || date.year == 0){
             strcpy(message, "Faltan campos por llenar");
         }else{
+            int met[ACTIVITY_AMOUNT] = ACTIVITY_METS;
+            calories = (int)(0.0175 * met[activitySelect] * hashTableUsers->users[actualUser]->info->weight)*(time.hour*60 + time.minute);
+
             if (distance > hashTableUsers->users[actualUser]->recordsDistance[activitySelect]){
                 hashTableUsers->users[actualUser]->recordsDistance[activitySelect] = distance;
             }
             if (calories > hashTableUsers->users[actualUser]->recordsCalories[activitySelect]){
                 hashTableUsers->users[actualUser]->recordsCalories[activitySelect] = calories;
             }
-            int met[ACTIVITY_AMOUNT] = ACTIVITY_METS;
-            calories = (int)(0.0175 * met[activitySelect] * hashTableUsers->users[actualUser]->info->weight)*(time.hour*60 + time.minute);
+
             addNodeActivity(&activities[activitySelect], actualUser, time, date, distance, calories, activitySelect);
             strcpy(message, "Actividad agregada");
         }
