@@ -2,8 +2,6 @@
 #define IMPORTEXPORT_H
 
 #include "../state.h"
-#include "../library/structs.h"
-#include "../library/activityList.h"
 
 void layer_importExport(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, HashTable* hashTableUsers, NodeActivity* activities[ACTIVITY_AMOUNT]){
     static char message[255] = "";

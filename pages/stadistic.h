@@ -2,7 +2,36 @@
 #define STADISTIC_H
 #include "../state.h"
 
+void drawHourActivityGlobal(int X, int Y, NodeActivity* activities[ACTIVITY_AMOUNT]){
+
+    int hours[24] = {0};
+    for (int i = 0; i<ACTIVITY_AMOUNT; i++){
+        NodeActivity* aux = activities[i];
+        while (aux){
+            hours[aux->date.hour]++;
+            aux = aux->next;
+        }
+    }
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
+    GuiDrawText("Horas de actividad global", (Rectangle){ X, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
+    int j = 1;
+    for (int i = 0; i<24; i++){
+        //if (hours[i] == 0) continue;
+        char text[255];
+        sprintf(text, "Hora %d : %d actividades", i+1, hours[i]);
+        if (i < 12) GuiDrawText(text, (Rectangle){ X, Y + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        else GuiDrawText(text, (Rectangle){ X+250, Y + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        if (j == 12) j = 0;
+        j++;
+    }
+
+}
+
 void drawMaxRecord(HashTable* hashTableUsers){
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
+    GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 26);
+
     int maxDistance = 0;
     int maxDistanceUser = 0;
     int maxCalories = 0;
@@ -26,6 +55,8 @@ void drawMaxRecord(HashTable* hashTableUsers){
     sprintf(textC, "Calorias maxima: %d kc\nUsuario: %s\nNombre: %s", maxCalories ,hashTableUsers->users[maxCaloriesUser]->mail, hashTableUsers->users[maxCaloriesUser]->info->name);
     if (maxDistance != 0) GuiDrawText(textD, (Rectangle){ 900, 20 + 90*1, 300, 150 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
     if (maxCalories != 0) GuiDrawText(textC, (Rectangle){ 900, 20 + 90*2, 300, 150 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+
+    GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 15);
 }
 
 void layer_stadistic(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, HashTable* hashTableUsers, NodeActivity* activities[ACTIVITY_AMOUNT]){
@@ -41,10 +72,10 @@ void layer_stadistic(int* page, Font* fontLekton, Font* fontAldrich, int actualU
     if (GuiButton((Rectangle){ 300, 50, 150, 40 }, "Volver al menu")) *page = 2;
 
     //Estadisticas
-    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
-    GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 26);
+    
     drawMaxRecord(hashTableUsers);
-    GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 15);
+
+    drawHourActivityGlobal( 0, 90, activities);
 		
 	EndDrawing();
 }

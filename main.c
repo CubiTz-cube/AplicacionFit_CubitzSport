@@ -32,7 +32,7 @@ int main(){
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
 	int actualUser = 1;//-1;
 	
-    int page = 6;
+    int page = 0;
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);
