@@ -12,12 +12,12 @@ ordenar entre lapsos de tiempos definidos
 #include "activityList.h"
 
 //Funcion para buscar una actividad en la lista enlazada
-NodeActivity* searchActivity(NodeActivity* head, int userId, int type) 
+NodeActivity* searchActivity(NodeActivity* head, int userId) //El type no hace falta ya que se saca de en que posicion del array de listas enlazadas esta
 {
     NodeActivity* current = head;
     while (current != NULL) 
     {
-        if (current->userId == userId && current->type == type) 
+        if (current->userId == userId) 
         {
             return current;
         }
