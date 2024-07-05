@@ -7,9 +7,9 @@ ordenar entre lapsos de tiempos definidos
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "library/structs.h"
-#include "library/userHash.h"
-#include "library/activityList.h"
+#include "structs.h"
+#include "userHash.h"
+#include "activityList.h"
 
 //Funcion para buscar una actividad en la lista enlazada
 NodeActivity* searchActivity(NodeActivity* head, int userId, int type) 
@@ -43,14 +43,77 @@ int compareDates(Date date1, Date date2)
     }
 }
 
-// Función para filtrar y ordenar actividades entre dos fechas.
+NodeActivity* merge(NodeActivity* left, NodeActivity* right) 
+{
+    if (left == NULL) 
+    {
+        return right;
+    }
+    if (right == NULL) 
+    {
+        return left;
+    }
+    
+    NodeActivity* result = NULL;
+    if (compareDates(left->date, right->date) <= 0) 
+    {
+        result = left;
+        result->next = merge(left->next, right);
+    } 
+    else 
+    {
+        result = right;
+        result->next = merge(left, right->next);
+    }
+    return result;
+}
+
+void split(NodeActivity* head, NodeActivity** left, NodeActivity** right) 
+{
+    NodeActivity* slow = head;
+    NodeActivity* fast = head->next;
+    
+    while (fast != NULL) 
+    {
+        fast = fast->next;
+        if (fast != NULL) 
+        {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+    
+    *left = head;
+    *right = slow->next;
+    slow->next = NULL;
+}
+
+NodeActivity* mergeSort(NodeActivity* head) 
+{
+    if (head == NULL || head->next == NULL) 
+    {
+        return head;
+    }
+    
+    NodeActivity* left;
+    NodeActivity* right;
+    
+    split(head, &left, &right);
+    
+    left = mergeSort(left);
+    right = mergeSort(right);
+    
+    return merge(left, right);
+}
+    
+    // Función para filtrar y ordenar actividades entre dos fechas.
 NodeActivity* filterAndSortActivities(NodeActivity* head, Date startDate, Date endDate) 
 {
     NodeActivity* filtered = NULL;
     NodeActivity* current = head;
     NodeActivity* prev = NULL;
     NodeActivity* next = NULL;
-
+    
     // Filtrar actividades que estén dentro del rango de fechas.
     while (current != NULL) 
     {
@@ -63,11 +126,9 @@ NodeActivity* filterAndSortActivities(NodeActivity* head, Date startDate, Date e
         }
         current = next;
     }
-
-    // Ordenar las actividades filtradas por fecha (puedes implementar aquí tu algoritmo de ordenamiento preferido).
-    // Este es un pseudocódigo para el ordenamiento, asumiendo que tienes una función de ordenamiento implementada.
-    // filtered = sortActivitiesByDate(filtered);
-
+    
+    // Ordenar las actividades filtradas por fecha utilizando el merge sort.
+    filtered = mergeSort(filtered);
+    
     return filtered;
 }
-

@@ -1,6 +1,7 @@
 #ifndef STADISTIC_H
 #define STADISTIC_H
 #include "../state.h"
+#include "../library/filters.h"
 
 void drawHourActivityGlobal(int X, int Y, NodeActivity* activities[ACTIVITY_AMOUNT]){
 
