@@ -183,6 +183,7 @@ void exportNodesActivity(NodeActivity* activitie, char* filePath){
     }
     char activityNames[50][ACTIVITY_AMOUNT] = ACTIVITY_NAMESARRAY;
     NodeActivity* aux = activitie;
+    fprintf(file, "USURIO: %d\n", aux->userId);
     while (aux) {
         fprintf(file, "Actividad: %d (%s)\nDuracion: %d:%d:%d\nFecha: %d/%d/%d\nHora %d:%d:%d\nDistancia: %d m\nCalorias: %d\n", 
         aux->type, activityNames[aux->type],
@@ -203,7 +204,7 @@ void importFormat(char* line, char* token){
     int j = 0;
 
     while (line[i] != ' '){
-        if (line[i] == '\n') return 0;
+        if (line[i] == '\n') return;
         i++;
     }
     i++;
@@ -221,17 +222,72 @@ int importNodesActivity(NodeActivity** activities, char* filePath){
         printf("Error: No se pudo abrir el archivo %s.\n", filePath);
         return 0;
     }
-    int userId, year, month, day, hour, minute, second, distance, calories;
+    int activityID, userId, year, month, day, hour, minute, second, distance, calories;
     printf("Importando actividades...\n");
     char line[255];
+    int i = 0;
+    int addFirts = 0;
     while (fgets(line, sizeof(line), file)){
         if (line[0] == '-'){
+            i = 0;
             continue;
         }
-        printf("%s", line);
-        char token[255];
-        importFormat(line, token);
-        printf("NUM %s\n", token);
+        char info[40];
+        char* token;
+        importFormat(line, info);
+
+        if (addFirts == 0){
+            addFirts = 1;
+            userId = atoi(info);
+            continue;
+        }
+
+        switch (i){
+        case 0:
+            activityID = atoi(info);
+            break;
+        case 1:
+            token = strtok(info, ":");
+            hour = atoi(token);
+            token = strtok(NULL, ":");
+            minute = atoi(token);
+            token = strtok(NULL, ":");
+            second = atoi(token);
+            Time duration = {second, minute, hour};
+            break;
+        case 2:
+            token = strtok(info, "/");
+            day = atoi(token);
+            token = strtok(NULL, "/");
+            month = atoi(token);
+            token = strtok(NULL, "/");
+            year = atoi(token);
+            break;
+        case 3:
+            token = strtok(info, ":");
+            hour = atoi(token);
+            token = strtok(NULL, ":");
+            minute = atoi(token);
+            token = strtok(NULL, ":");
+            second = atoi(token);
+            Date date = {second, minute, hour, day, month, year};
+            break;
+        case 4:
+            distance = atoi(info);
+            break;
+        case 5:
+            calories = atoi(info);
+            printf("ACTIVIDAD AÑADIDA\n");
+            printf("USUARIO %d\n", userId);
+            printf("ID %d\n", activityID);
+            printf("hora %d:%d:%d\n", duration.hour, duration.minute, duration.second);
+            printf("fecha %d/%d/%d %d:%d:%d\n", date.day, date.month, date.year, date.hour, date.minute, date.second);
+            printf("distancia %d\n", distance);
+            printf("calorias %d\n", calories);
+            addNodeActivity(&activities[activityID], userId, duration, date, distance, calories, i);
+            break;
+        }
+        i++;
     }
     return 1;
 }
