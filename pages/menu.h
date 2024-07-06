@@ -20,7 +20,10 @@ void drawActivities(NodeActivity* activitieList){
 }
 
 void drawRecords(int* recordsD, int* recordsC){
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
     int j = 0;
+    GuiDrawText("Records Personales", (Rectangle){ 1000, 15, 300, 50 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
     for (int i = 0; i < ACTIVITY_AMOUNT; i++){
         char text[255];
         char activitiesNames[50][ACTIVITY_AMOUNT] = ACTIVITY_NAMESARRAY;
@@ -29,7 +32,7 @@ void drawRecords(int* recordsD, int* recordsC){
         if (recordsD[i] == 0) sprintf(text, "Record %s\nCalorias: %d", activitiesNames[i], recordsC[i]);
         else if (recordsC[i] == 0) sprintf(text, "Record %s\nDistancia: %d m", activitiesNames[i], recordsD[i]);
         else sprintf(text, "Record %s\nDistancia: %d m\nCalorias: %d", activitiesNames[i], recordsD[i], recordsC[i]);
-        GuiDrawText(text, (Rectangle){ 800, 100 + 85*j, 300, 100 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        GuiDrawText(text, (Rectangle){ 1000, 50 + 45*j, 300, 100 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
         j++;
     }
 }

@@ -21,18 +21,56 @@ void drawHourActivityGlobal(int X, int Y, NodeActivity* activities[ACTIVITY_AMOU
         //if (hours[i] == 0) continue;
         char text[255];
         sprintf(text, "Hora %d : %d actividades", i+1, hours[i]);
-        if (i < 12) GuiDrawText(text, (Rectangle){ X, Y + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-        else GuiDrawText(text, (Rectangle){ X+250, Y + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        if (i < 12) GuiDrawText(text, (Rectangle){ X, Y+10 + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        else GuiDrawText(text, (Rectangle){ X+250, Y+10 + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
         if (j == 12) j = 0;
         j++;
     }
 
 }
 
-void drawMaxRecord(HashTable* hashTableUsers){
+void drawMaxRecord(HashTable* hashTableUsers, int X, int Y){
     GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
-    GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 26);
-
+    GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 18);
+    GuiDrawText("Records de Calorias", (Rectangle){ X, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Records de Distancia", (Rectangle){ X+300, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    int vC = 1;
+    int vD = 1;
+    char actityNames[50][ACTIVITY_AMOUNT] = ACTIVITY_NAMESARRAY;
+    for (int i = 0; i < ACTIVITY_AMOUNT; i++){
+        int maxC = 0;
+        int userC = 0;
+        int activityC = 0;
+        int maxD = 0;
+        int userD = 0;
+        int activityD = 0;
+        for (int j = 0; j < USERS_AMOUNT; j++){
+            if (!hashTableUsers->users[j]) continue;
+            if (hashTableUsers->users[j]->recordsCalories[i] > maxC){
+                maxC = hashTableUsers->users[j]->recordsCalories[i];
+                userC = j;
+                activityC = i;
+            }
+            if (hashTableUsers->users[j]->recordsDistance[i] > maxD){
+                maxD = hashTableUsers->users[j]->recordsCalories[i];
+                userD = j;
+                activityD = i;
+            }
+        }
+        if (maxC != 0){
+            char text[255];
+            sprintf(text, "%s | %d kc\nUsuario: %s", actityNames[activityC], maxC, hashTableUsers->users[userC]->mail);
+            GuiDrawText(text, (Rectangle){ X, Y+10 + 40*vC, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+            vC++;
+        }
+        if (maxD != 0){
+            char text[255];
+            sprintf(text, "%s | %d m\nUsuario: %s", actityNames[activityD], maxD, hashTableUsers->users[userD]->mail);
+            GuiDrawText(text, (Rectangle){ X+300, Y+10 + 40*vD, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+            vD++;
+        }
+    }
+    /*
     int maxDistance = 0;
     int maxDistanceUser = 0;
     int maxCalories = 0;
@@ -56,7 +94,7 @@ void drawMaxRecord(HashTable* hashTableUsers){
     sprintf(textC, "Calorias maxima: %d kc\nUsuario: %s\nNombre: %s", maxCalories ,hashTableUsers->users[maxCaloriesUser]->mail, hashTableUsers->users[maxCaloriesUser]->info->name);
     if (maxDistance != 0) GuiDrawText(textD, (Rectangle){ 900, 20 + 90*1, 300, 150 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
     if (maxCalories != 0) GuiDrawText(textC, (Rectangle){ 900, 20 + 90*2, 300, 150 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-
+    */
     GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 15);
 }
 
@@ -74,7 +112,7 @@ void layer_stadistic(int* page, Font* fontLekton, Font* fontAldrich, int actualU
 
     //Estadisticas
     
-    drawMaxRecord(hashTableUsers);
+    drawMaxRecord(hashTableUsers, 500, 90);
 
     drawHourActivityGlobal( 0, 90, activities);
 		
