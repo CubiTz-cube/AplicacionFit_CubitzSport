@@ -23,7 +23,7 @@ void layer_profile(int* page, Font* fontLekton, Font* fontAldrich, int* actualUs
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
 
-    char mail[100]; 
+    char mail[150]; 
     sprintf(mail, "Correo: %s", hashTableUsers->users[*actualUser]->mail);
     GuiDrawText(mail, (Rectangle){ 0, 120, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
 

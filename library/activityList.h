@@ -51,7 +51,7 @@ void printNodesActivity(NodeActivity* head){
     NodeActivity* aux = head;
     while (aux) {
         printf("\n");
-        printf("Usuario: %d Actividad\n", aux->userId, aux->type);
+        printf("Usuario: %d Actividad %d\n", aux->userId, aux->type);
         printf("Duracion: %d:%d:%d\n", aux->duration.hour, aux->duration.minute, aux->duration.second);
         printf("Inicio: %d:%d:%d %d/%d/%d\n", aux->date.hour, aux->date.minute, aux->date.second, aux->date.day, aux->date.month, aux->date.year);
         printf("Distancia: %d\n", aux->distance);
@@ -175,11 +175,15 @@ void saveNodesActivity(NodeActivity** activities, char* filePath){
     fclose(file);
 }
 
-void exportNodesActivity(NodeActivity* activitie, char* filePath){
+int exportNodesActivity(NodeActivity* activitie, char* filePath){
+    if (!activitie){
+        printf("Error: No hay actividades para exportar.\n");
+        return 0;
+    }
     FILE* file = fopen(filePath, "w");
     if (!file) {
         printf("Error: No se pudo abrir el archivo %s.\n", filePath);
-        return;
+        return 0;
     }
     char activityNames[50][ACTIVITY_AMOUNT] = ACTIVITY_NAMESARRAY;
     NodeActivity* aux = activitie;
@@ -197,6 +201,7 @@ void exportNodesActivity(NodeActivity* activitie, char* filePath){
     }
 
     fclose(file);
+    return 1;
 }
 
 void importFormat(char* line, char* token){

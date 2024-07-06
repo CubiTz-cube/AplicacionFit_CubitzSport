@@ -22,8 +22,11 @@ void layer_importExport(int* page, Font* fontLekton, Font* fontAldrich, int actu
         message[0] = '\0';
     }
     if (GuiButton((Rectangle){ 50, 200, 200, 40 }, "Exportar Actividades")) {
-        exportNodesActivity(activities[0], "data/export.txt");
-        strcpy(message, "Actividades exportadas correctamente");
+        if (exportNodesActivity(activities[0], "data/export.txt")){
+            strcpy(message, "Actividades exportadas correctamente");
+        }else{
+            strcpy(message, "Error al exportar actividades");
+        }
     }
     if (GuiButton((Rectangle){ 50, 250, 200, 40 }, "Importar Actividades")) {
         if (importNodesActivity(activities, filePath)) strcpy(message, "Actividades importadas correctamente");
