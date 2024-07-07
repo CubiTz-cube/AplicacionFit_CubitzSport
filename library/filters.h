@@ -8,6 +8,7 @@ ordenar entre lapsos de tiempos definidos
 #include "structs.h"
 #include "userHash.h"
 #include "activityList.h"
+#include "state.h"
 
 //Funcion para buscar una actividad en la lista enlazada
 NodeActivity* searchActivity(NodeActivity* head, int userId) //El type no hace falta ya que se saca de en que posicion del array de listas enlazadas esta
@@ -131,27 +132,23 @@ NodeActivity* filterAndSortActivities(NodeActivity* head, Date startDate, Date e
     return filtered;
 }
 
-//Funcion para filtrar usuarios por actividades realizadas en un rango de fechas, devuelve una lista de listas enlazadas de usuarios
-NodeActivity** filterUsersByActivities(HashTable* hashTable, Date startDate, Date endDate) 
+//Filtrar actividades por usuario, devuelve una lista de listas enlazadas de actividades de TODOS los usuarios
+NodeActivity* filterActivitiesByUser(NodeActivity* activities[ACTIVITY_AMOUNT], int userID)
 {
-    NodeActivity** filteredUsers = (NodeActivity**)malloc(hashTable->max * sizeof(NodeActivity*));
-    if (filteredUsers == NULL) 
-    {
-        return NULL;
-    }
+    NodeActivity* filtered = NULL;
+    NodeActivity* current = NULL;
+    NodeActivity* prev = NULL;
+    NodeActivity* next = NULL;
     
-    for (int i = 0; i < hashTable->max; i++) 
+    for (int i = 0; i < ACTIVITY_AMOUNT; i++)
     {
-        User* user = hashTable->users[i];
-        if (user != NULL) 
+        current = searchActivity(activities[i], userID);
+        if (current != NULL)
         {
-            filteredUsers[i] = filterAndSortActivities(user->info, startDate, endDate);
-        } 
-        else 
-        {
-            filteredUsers[i] = NULL;
+            next = current->next;
+            current->next = filtered;
+            filtered = current;
         }
     }
-    
-    return filteredUsers;
+    return filtered;
 }
