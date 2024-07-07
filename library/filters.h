@@ -3,8 +3,6 @@ Ordenar listas enlazadas de mayor a menor y viceversa, que tambien se puedan
 ordenar entre lapsos de tiempos definidos
 */
 
-//Generado por Copilot, se modifico para que se ajustara a las necesidades del proyecto
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "structs.h"
@@ -106,7 +104,7 @@ NodeActivity* mergeSort(NodeActivity* head)
     return merge(left, right);
 }
     
-    // Función para filtrar y ordenar actividades entre dos fechas.
+// Función para filtrar y ordenar actividades entre dos fechas.
 NodeActivity* filterAndSortActivities(NodeActivity* head, Date startDate, Date endDate) 
 {
     NodeActivity* filtered = NULL;
@@ -131,4 +129,29 @@ NodeActivity* filterAndSortActivities(NodeActivity* head, Date startDate, Date e
     filtered = mergeSort(filtered);
     
     return filtered;
+}
+
+//Funcion para filtrar usuarios por actividades realizadas en un rango de fechas, devuelve una lista de listas enlazadas de usuarios
+NodeActivity** filterUsersByActivities(HashTable* hashTable, Date startDate, Date endDate) 
+{
+    NodeActivity** filteredUsers = (NodeActivity**)malloc(hashTable->max * sizeof(NodeActivity*));
+    if (filteredUsers == NULL) 
+    {
+        return NULL;
+    }
+    
+    for (int i = 0; i < hashTable->max; i++) 
+    {
+        User* user = hashTable->users[i];
+        if (user != NULL) 
+        {
+            filteredUsers[i] = filterAndSortActivities(user->info, startDate, endDate);
+        } 
+        else 
+        {
+            filteredUsers[i] = NULL;
+        }
+    }
+    
+    return filteredUsers;
 }
