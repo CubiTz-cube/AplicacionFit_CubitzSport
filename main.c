@@ -1,6 +1,8 @@
 #include "state.h"
 #include "library/userHash.h"
 #include "library/activityList.h"
+#include "library/filters.h"
+
 
 #include "pages/login.h"
 #include "pages/register.h"
