@@ -29,7 +29,7 @@ void addNodeActivity(NodeActivity** head, int userId, Time duration, Date date, 
     }
 
     NodeActivity* aux = *head;
-    if (newN->calories < aux->calories) {
+    if (newN->calories > aux->calories) {
         newN->next = aux;
         *head = newN;
         return;
