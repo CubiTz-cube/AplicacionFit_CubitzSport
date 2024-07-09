@@ -63,7 +63,7 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
 
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
-    GuiDrawText("Registros", (Rectangle){ 500, 15, 300, 20 }, TEXT_ALIGN_CENTER, (Color){ 255, 255, 255, 255 });
+    GuiDrawText("Registros", (Rectangle){ 490, 15, 300, 20 }, TEXT_ALIGN_CENTER, (Color){ 255, 255, 255, 255 });
     //Botones 
     //Menu
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
@@ -94,7 +94,7 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
     GuiDrawText(message, (Rectangle){ 600, 120+80*5, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
     char textPage[255];
     sprintf(textPage, "Pagina %d", pageActivities+1);
-    GuiDrawText(textPage, (Rectangle){ 600, 680, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiDrawText(textPage, (Rectangle){ 540, 680, 200, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
 
     //Actividades
     drawRecords(hashTableUsers->users[actualUser]->recordsDistance, hashTableUsers->users[actualUser]->recordsCalories);
