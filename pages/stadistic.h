@@ -3,12 +3,35 @@
 #include "../state.h"
 #include "../library/filters.h"
 
+void drawHourActivityUser(int X, int Y, NodeActivity* activitiesUsers){
+    int hours[24] = {0};
+    NodeActivity* aux = activitiesUsers;
+    while (aux){
+        hours[aux->date.hour]++;
+        aux = aux->next;
+    }
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
+    GuiDrawText("Horas de actividad", (Rectangle){ X, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
+    int j = 1;
+    for (int i = 0; i<24; i++){
+        //if (hours[i] == 0) continue;
+        char text[255];
+        sprintf(text, "Hora %d : %d actividades", i+1, hours[i]);
+        if (i < 12) GuiDrawText(text, (Rectangle){ X, Y+10 + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        else GuiDrawText(text, (Rectangle){ X+250, Y+10 + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        if (j == 12) j = 0;
+        j++;
+    }
+}
+
 void drawHourActivityGlobal(int X, int Y, NodeActivity* activities[ACTIVITY_AMOUNT]){
 
     int hours[24] = {0};
     for (int i = 0; i<ACTIVITY_AMOUNT; i++){
         NodeActivity* aux = activities[i];
         while (aux){
+            //printf("Hora: %d\n", aux->date.hour);
             hours[aux->date.hour]++;
             aux = aux->next;
         }
@@ -83,7 +106,10 @@ void layer_stadistic(int* page, Font* fontLekton, Font* fontAldrich, int actualU
     drawMaxRecord(activities, hashTableUsers, 500, 90);
 
     drawHourActivityGlobal( 0, 90, activities);
-		
+    NodeActivity* activitiesUser = filterActivitiesByUser(activities, actualUser);
+    drawHourActivityUser( 500, 300, activitiesUser);
+	freeNodesActivity(&activitiesUser);
+
 	EndDrawing();
 }
 
