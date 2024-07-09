@@ -44,7 +44,7 @@ int drawActivitiesUser(NodeActivity* activityUser, int page, int amount){
     return 1;
 }
 
-void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, HashTable* hashTableUsers, NodeActivity* activities[ACTIVITY_AMOUNT]){
+void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, HashTable* hashTableUsers, NodeActivity* activities[ACTIVITY_AMOUNT], Texture2D logoNegro){
     static char message[255] = "";
     static int pageActivities = 0;
     BeginDrawing();
@@ -55,9 +55,11 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
     DrawRectangle(0, 50, 300, 670, (Color){ 80, 80, 80, 255 });
     DrawRectangle(1040, 50, 300, 670, (Color){ 180, 180, 180, 255 });
 
+    DrawTexture(logoNegro, 0, 0, WHITE);
+
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 36);
-    GuiDrawText("CubiTz Sport", (Rectangle){ 0, 0, 300, 50 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("CubiTz Sport", (Rectangle){ 60, 5, 300, 50 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
 
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 20);

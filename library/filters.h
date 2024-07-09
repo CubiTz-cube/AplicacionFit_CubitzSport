@@ -15,6 +15,7 @@ NodeActivity* filterActivitiesByUser(NodeActivity* activities[ACTIVITY_AMOUNT], 
     NodeActivity* head = NULL;
     for (int i = 0; i < ACTIVITY_AMOUNT; i++)
     {
+        if (!activities[i]) continue;
         NodeActivity* aux = activities[i];
         while (aux)
         {

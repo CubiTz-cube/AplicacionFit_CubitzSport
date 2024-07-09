@@ -4,50 +4,55 @@
 #include "../library/filters.h"
 
 void drawHourActivityUser(int X, int Y, NodeActivity* activitiesUsers){
+    int max = 1;
     int hours[24] = {0};
-    NodeActivity* aux = activitiesUsers;
-    while (aux){
-        hours[aux->date.hour]++;
-        aux = aux->next;
-    }
-    GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
-    GuiDrawText("Horas de actividad", (Rectangle){ X, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-    GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    int j = 1;
-    for (int i = 0; i<24; i++){
-        //if (hours[i] == 0) continue;
-        char text[255];
-        sprintf(text, "Hora %d : %d actividades", i+1, hours[i]);
-        if (i < 12) GuiDrawText(text, (Rectangle){ X, Y+10 + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-        else GuiDrawText(text, (Rectangle){ X+250, Y+10 + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-        if (j == 12) j = 0;
-        j++;
-    }
-}
-
-void drawHourActivityGlobal(int X, int Y, NodeActivity* activities[ACTIVITY_AMOUNT]){
-
-    int hours[24] = {0};
-    for (int i = 0; i<ACTIVITY_AMOUNT; i++){
-        NodeActivity* aux = activities[i];
+    if (activitiesUsers){
+        NodeActivity* aux = activitiesUsers;
         while (aux){
-            //printf("Hora: %d\n", aux->date.hour);
             hours[aux->date.hour]++;
+            if (hours[aux->date.hour] > max) max = hours[aux->date.hour];
             aux = aux->next;
         }
     }
     GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
-    GuiDrawText("Horas de actividad global", (Rectangle){ X, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Tus horas de actividades", (Rectangle){ X, Y, 690, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    int j = 1;
     for (int i = 0; i<24; i++){
-        //if (hours[i] == 0) continue;
+        DrawCircle(X+15+30*i, Y+150-hours[i]*(100/max), 2, (Color){ 0, 0, 0, 255 });
+        if (i != 0){
+            DrawLine(X+15+30*(i-1), Y+150-hours[i-1]*(100/max), X+15+30*i, Y+150-hours[i]*(100/max), (Color){ 0, 0, 0, 255 });
+        }
+
         char text[255];
-        sprintf(text, "Hora %d : %d actividades", i+1, hours[i]);
-        if (i < 12) GuiDrawText(text, (Rectangle){ X, Y+10 + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-        else GuiDrawText(text, (Rectangle){ X+250, Y+10 + 25*j, 250, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-        if (j == 12) j = 0;
-        j++;
+        sprintf(text, "%d", i+1);
+        GuiDrawText(text, (Rectangle){ X+30*i, Y+150, 30, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    }
+}
+
+void drawHourActivityGlobal(int X, int Y, NodeActivity* activities[ACTIVITY_AMOUNT]){
+    int max = 1;
+    int hours[24] = {0};
+    for (int i = 0; i<ACTIVITY_AMOUNT; i++){
+        if (!activities[i]) continue;
+        NodeActivity* aux = activities[i];
+        while (aux){
+            hours[aux->date.hour]++;
+            if (hours[aux->date.hour] > max) max = hours[aux->date.hour];
+            aux = aux->next;
+        }
+    }
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
+    GuiDrawText("Horas de actividades global", (Rectangle){ X, Y, 690, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
+    for (int i = 0; i<24; i++){
+        DrawCircle(X+15+30*i, Y+150-hours[i]*(100/max), 2, (Color){ 0, 0, 0, 255 });
+        if (i != 0){
+            DrawLine(X+15+30*(i-1), Y+150-hours[i-1]*(100/max), X+15+30*i, Y+150-hours[i]*(100/max), (Color){ 0, 0, 0, 255 });
+        }
+
+        char text[255];
+        sprintf(text, "%d", i+1);
+        GuiDrawText(text, (Rectangle){ X+30*i, Y+150, 30, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
     }
 
 }
@@ -96,7 +101,7 @@ void layer_stadistic(int* page, Font* fontLekton, Font* fontAldrich, int actualU
     DrawRectangle(0, 0, 1280, 50, (Color){ 210, 210, 210, 255 });
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
-    GuiDrawText("CubiTz Estadisticas", (Rectangle){ 200, 0, 400, 60 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Estadisticas", (Rectangle){ 200, 0, 400, 60 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
 
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
@@ -104,11 +109,11 @@ void layer_stadistic(int* page, Font* fontLekton, Font* fontAldrich, int actualU
 
     //Estadisticas
     
-    drawMaxRecord(activities, hashTableUsers, 500, 90);
+    drawMaxRecord(activities, hashTableUsers, 600, 90);
 
     drawHourActivityGlobal( 0, 90, activities);
     NodeActivity* activitiesUser = filterActivitiesByUser(activities, actualUser);
-    drawHourActivityUser( 500, 300, activitiesUser);
+    drawHourActivityUser( 0, 300, activitiesUser);
 	freeNodesActivity(&activitiesUser);
 
 	EndDrawing();
