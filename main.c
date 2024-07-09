@@ -26,8 +26,8 @@ int main(){
 	seeHashTable(hashTableUsers, USERS_AMOUNT);
 
 	seeAllNodesActivity(activities);
-
-	InitWindow(1280, 720, "OLP-76");
+	
+	InitWindow(1280, 720, "Fitness Tracker");
 	SetTargetFPS(60);
     
     Font fontLekton = LoadFont("public/fonts/Lekton-Regular.ttf");
