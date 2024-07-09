@@ -33,14 +33,15 @@ int drawActivitiesUser(NodeActivity* activityUser, int page, int amount){
             i++;
             continue;
         }
-        if (j == amount) return 1;
+        if (j == amount) break;
         char text[255];
         sprintf(text, "Actividad: %s\nDuracion: %d:%d:%d\nFecha: %d/%d/%d a las %d:%d:%d\nDistancia: %d m\nCalorias: %d", activitiesNames[aux->type], aux->duration.hour, aux->duration.minute, aux->duration.second, aux->date.day, aux->date.month, aux->date.year, aux->date.hour, aux->date.minute, aux->date.second, aux->distance, aux->calories);
         GuiDrawText(text, (Rectangle){ 500, 75 + 85*j, 300, 100 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
         aux = aux->next;
         j++;
     }
-    return 0;
+    if (j == 0) return 0;
+    return 1;
 }
 
 void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, HashTable* hashTableUsers, NodeActivity* activities[ACTIVITY_AMOUNT]){
