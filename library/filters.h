@@ -9,50 +9,23 @@ Ordenar listas enlazadas de actividades de usuario de mayor a menor y viceversa 
 #include "structs.h"
 #include "activityList.h"
 
-//Funcion para buscar una actividad en la lista enlazada
-NodeActivity* searchActivity(NodeActivity* head, int userId)
+//Recorre el struct hasta que el usuario sea el indicado y luego ordena la lista enlazada de actividades
+NodeActivity* filterActivitiesByUser(NodeActivity* activities[ACTIVITY_AMOUNT], int userId)
 {
-    NodeActivity* current = head;
-    while (current != NULL) 
-    {
-        if (current->userId == userId) 
-        {
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL;
-}
-
-//Filtrar actividades por usuario, devuelve una lista de listas enlazadas de actividades de un usuario
-NodeActivity* filterActivitiesByUser(NodeActivity* activities[ACTIVITY_AMOUNT], int userID)
-{
-    NodeActivity* filteredActivities = NULL;
+    NodeActivity* head = NULL;
     for (int i = 0; i < ACTIVITY_AMOUNT; i++)
     {
-        NodeActivity* activity = searchActivity(activities[i], userID);
-        if (activity != NULL)
+        NodeActivity* aux = activities[i];
+        while (aux)
         {
-            NodeActivity* newNode = (NodeActivity*)malloc(sizeof(NodeActivity));
-            newNode->userId = activity->userId;
-            newNode->type = activity->type;
-            newNode->next = NULL;
-            if (filteredActivities == NULL)
+            if (aux->userId == userId)
             {
-                filteredActivities = newNode;
+                addNodeActivity(&head, aux->userId, aux->duration, aux->date, aux->distance, aux->calories, aux->type);
             }
-            else
-            {
-                NodeActivity* current = filteredActivities;
-                while (current->next != NULL)
-                {
-                    current = current->next;
-                }
-                current->next = newNode;
-            }
+            aux = aux->next;
         }
     }
-    return filteredActivities;
+    return head;
 }
 
 
