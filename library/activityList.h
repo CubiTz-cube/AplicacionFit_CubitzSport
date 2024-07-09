@@ -35,7 +35,7 @@ void addNodeActivity(NodeActivity** head, int userId, Time duration, Date date, 
         return;
     }
 
-    while (aux->next && newN->calories > aux->next->calories) {
+    while (aux->next && newN->calories < aux->next->calories) {
         aux = aux->next;
     }
 

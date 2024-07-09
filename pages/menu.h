@@ -36,7 +36,7 @@ int drawActivitiesUser(NodeActivity* activityUser, int page, int amount){
         if (j == amount) return 1;
         char text[255];
         sprintf(text, "Actividad: %s\nDuracion: %d:%d:%d\nFecha: %d/%d/%d a las %d:%d:%d\nDistancia: %d m\nCalorias: %d", activitiesNames[aux->type], aux->duration.hour, aux->duration.minute, aux->duration.second, aux->date.day, aux->date.month, aux->date.year, aux->date.hour, aux->date.minute, aux->date.second, aux->distance, aux->calories);
-        GuiDrawText(text, (Rectangle){ 500, 60 + 85*j, 300, 100 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        GuiDrawText(text, (Rectangle){ 500, 75 + 85*j, 300, 100 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
         aux = aux->next;
         j++;
     }
@@ -50,18 +50,19 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
 
 	ClearBackground(RAYWHITE);
 
-    DrawRectangle(0, 0, 300, 50, (Color){ 240, 240, 240, 255 });
+    DrawRectangle(0, 0, 1280, 50, (Color){ 210, 210, 210, 255 });
     DrawRectangle(0, 50, 300, 670, (Color){ 80, 80, 80, 255 });
-    DrawRectangle(1040, 0, 300, 50, (Color){ 240, 240, 240, 255 });
-    DrawRectangle(1040, 50, 300, 670, (Color){ 200, 200, 200, 255 });
+    DrawRectangle(1040, 50, 300, 670, (Color){ 180, 180, 180, 255 });
 
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 36);
     GuiDrawText("CubiTz Sport", (Rectangle){ 0, 0, 300, 50 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
 
+    GuiSetFont(*fontLekton);
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
+    GuiDrawText("Registros", (Rectangle){ 500, 15, 300, 20 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
     //Botones 
     //Menu
-    GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
     if (GuiButton((Rectangle){ 30, 60, 240, 40 }, "#150# Anadir actividad")) {
         *page = 3;
@@ -95,9 +96,11 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
     //Actividades
     drawRecords(hashTableUsers->users[actualUser]->recordsDistance, hashTableUsers->users[actualUser]->recordsCalories);
     
-    if (!drawActivitiesUser(activities[5], pageActivities, 3)){
+    NodeActivity* ActivityUser = filterActivitiesByUser(activities, actualUser);
+    if (!drawActivitiesUser(ActivityUser, pageActivities, 6)){
         pageActivities--;
     }
+    freeNodesActivity(&ActivityUser);
 
 	EndDrawing();
 }
