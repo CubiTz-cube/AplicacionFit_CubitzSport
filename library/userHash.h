@@ -235,19 +235,13 @@ int searchHashTable(HashTable* hashTable, char* mail){
     if (!hashTable) return -1;
 
     int hash = functionHash(hashTable->max, mail);
-    if (hashTable->users[hash]){
-        if (strcmp(hashTable->users[hash]->mail, mail) == 0){
-            return hash;
-        }else{
-            int i = 1;
-            while (hashTable->users[hash] || i>hashTable->max){
-                hash = (hash + i) % hashTable->max;
-                if (strcmp(hashTable->users[hash]->mail, mail) == 0){
-                    return hash;
-                }
-                i++;
+    for (int i = 0; i < hashTable->max; i++){
+        if (hashTable->users[hash]){
+            if (strcmp(hashTable->users[hash]->mail, mail) == 0){
+                return hash;
             }
         }
+        hash = (hash + 1) % hashTable->max;
     }
     return -1;
 }
