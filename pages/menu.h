@@ -65,7 +65,7 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
     //Botones 
     //Menu
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    if (GuiButton((Rectangle){ 30, 60, 240, 40 }, "#150# Anadir actividad")) {
+    if (GuiButton((Rectangle){ 30, 60, 240, 40 }, "#150# Agregar actividad")) {
         *page = 3;
         message[0] = '\0';
     }

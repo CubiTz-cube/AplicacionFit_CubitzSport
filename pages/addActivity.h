@@ -152,16 +152,16 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
     static char message[50] = "";
 
     BeginDrawing();
-
 	ClearBackground(RAYWHITE);
+    DrawRectangle(0, 0, 1280, 50, (Color){ 210, 210, 210, 255 });
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
     GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 32);
-    GuiDrawText("CubiTz Anadir \nactividad", (Rectangle){ 0, 0, 400, 100 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Agregar Actividad", (Rectangle){ 200, 0, 400, 50 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
     GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 15);
 
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    if (GuiButton((Rectangle){ 300, 50, 150, 40 }, "Volver al menu")) {
+    if (GuiButton((Rectangle){ 0, 0, 150, 50 }, "Volver al menu")) {
         *page = 2;
         distance = -1;
         calories = 0;
