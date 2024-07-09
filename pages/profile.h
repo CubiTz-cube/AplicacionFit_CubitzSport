@@ -12,10 +12,10 @@ void layer_profile(int* page, Font* fontLekton, Font* fontAldrich, int* actualUs
 
     BeginDrawing();
 	ClearBackground(RAYWHITE);
-    DrawRectangle(0, 0, 1280, 50, (Color){ 210, 210, 210, 255 });
+    DrawRectangle(0, 0, 1280, 50, (Color){ 60, 60, 80, 255 });
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
-    GuiDrawText("Perfil", (Rectangle){ 200, 0, 300, 50 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Perfil", (Rectangle){ 200, 5, 300, 50 }, TEXT_ALIGN_LEFT, (Color){ 255, 255, 255, 255 });
 
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
     if (GuiButton((Rectangle){ 0, 0, 150, 50 }, "Volver al menu")) *page = 2;

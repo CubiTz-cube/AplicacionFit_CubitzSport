@@ -8,10 +8,10 @@ void layer_importExport(int* page, Font* fontLekton, Font* fontAldrich, int actu
     static char filePath[255] = "";
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    DrawRectangle(0, 0, 1280, 50, (Color){ 210, 210, 210, 255 });
+    DrawRectangle(0, 0, 1280, 50, (Color){ 60, 60, 80, 255 });
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
-    GuiDrawText("Importar/Exportar", (Rectangle){ 200, 0, 400, 50 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Importar/Exportar", (Rectangle){ 200, 5, 400, 50 }, TEXT_ALIGN_LEFT, (Color){ 255, 255, 255, 255 });
 
     //Botones
     GuiSetFont(*fontLekton);

@@ -27,7 +27,7 @@ int main(){
 	InitWindow(1280, 720, "CubiTz Sports");
 	SetTargetFPS(60);
     
-	Image logoN = LoadImage("public/images/isotipoNegro.png");
+	Image logoN = LoadImage("public/images/isotipoColor.png");
 	Image logoC = LoadImage("public/images/isotipoColor.png");
 	ImageResize(&logoN, 50, 50);
 	ImageResize(&logoC, 500, 500);
@@ -41,7 +41,7 @@ int main(){
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
 	int actualUser = 1;//-1;
 	
-    int page = 5;
+    int page = 2;
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);

@@ -60,8 +60,8 @@ void drawHourActivityGlobal(int X, int Y, NodeActivity* activities[ACTIVITY_AMOU
 void drawMaxRecord(NodeActivity* activities[ACTIVITY_AMOUNT], HashTable* hashTableUsers, int X, int Y){
     GuiSetStyle(DEFAULT, TEXT_SIZE, 18);
     GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 18);
-    GuiDrawText("Records de Calorias", (Rectangle){ X, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-    GuiDrawText("Records de Distancia", (Rectangle){ X+300, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Records de Calorias Global", (Rectangle){ X, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Records de Distancia Global", (Rectangle){ X+280, Y, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
     char actityNames[50][ACTIVITY_AMOUNT] = ACTIVITY_NAMESARRAY;
     int indexC = 1;
     int indexD = 1;
@@ -87,7 +87,7 @@ void drawMaxRecord(NodeActivity* activities[ACTIVITY_AMOUNT], HashTable* hashTab
         if (maxD != 0){
             char text[255];
             sprintf(text, "%s | %d m\nUsuario: %s", actityNames[i], maxD, hashTableUsers->users[userD]->mail);
-            GuiDrawText(text, (Rectangle){ X+300, Y+10 + 40*indexD, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+            GuiDrawText(text, (Rectangle){ X+280, Y+10 + 40*indexD, 500, 30 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
             indexD++;
         }
     }
@@ -98,10 +98,10 @@ void layer_stadistic(int* page, Font* fontLekton, Font* fontAldrich, int actualU
     BeginDrawing();
 	ClearBackground(RAYWHITE);
 
-    DrawRectangle(0, 0, 1280, 50, (Color){ 210, 210, 210, 255 });
+    DrawRectangle(0, 0, 1280, 50, (Color){ 60, 60, 80, 255 });
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
-    GuiDrawText("Estadisticas", (Rectangle){ 200, 0, 400, 60 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Estadisticas", (Rectangle){ 200, 5, 400, 50 }, TEXT_ALIGN_LEFT, (Color){ 255, 255, 255, 255 });
 
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);

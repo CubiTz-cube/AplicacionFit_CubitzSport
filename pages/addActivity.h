@@ -153,11 +153,11 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
 
     BeginDrawing();
 	ClearBackground(RAYWHITE);
-    DrawRectangle(0, 0, 1280, 50, (Color){ 210, 210, 210, 255 });
+    DrawRectangle(0, 0, 1280, 50, (Color){ 60, 60, 80, 255 });
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
     GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 32);
-    GuiDrawText("Agregar Actividad", (Rectangle){ 200, 0, 400, 50 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Agregar Actividad", (Rectangle){ 200, 5, 400, 50 }, TEXT_ALIGN_LEFT, (Color){ 255, 255, 255, 255 });
     GuiSetStyle(DEFAULT, TEXT_LINE_SPACING, 15);
 
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
@@ -196,7 +196,7 @@ void layer_addActivity(int* page, Font* fontLekton, Font* fontAldrich, int actua
     GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
 
     GuiDrawText("Actividad: ", (Rectangle){ 0, 120, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
-    GuiDropdownBoxEdit((Rectangle){ 300, 120, 300, 30 }, ACTIVITY_NAMES, &activitySelect);
+    GuiDropdownBoxEdit((Rectangle){ 210, 120, 300, 30 }, ACTIVITY_NAMES, &activitySelect);
 
     GuiDrawText("Fecha y hora de inicio: ", (Rectangle){ 0, 120+80, 500, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
     GuiDrawText("Tiempo de duracion: ", (Rectangle){ 0, 120+80*2, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });

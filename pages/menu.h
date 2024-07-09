@@ -4,9 +4,9 @@
 #include "../state.h"
 
 void drawRecords(int* recordsD, int* recordsC){
-    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
     int j = 0;
-    GuiDrawText("Records Personales", (Rectangle){ 1000, 15, 300, 20 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Records Personales", (Rectangle){ 1000, 15, 300, 20 }, TEXT_ALIGN_CENTER, (Color){ 255, 255, 255, 255 });
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
     for (int i = 0; i < ACTIVITY_AMOUNT; i++){
         char text[255];
@@ -51,19 +51,19 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
 
 	ClearBackground(RAYWHITE);
 
-    DrawRectangle(0, 0, 1280, 50, (Color){ 210, 210, 210, 255 });
-    DrawRectangle(0, 50, 300, 670, (Color){ 80, 80, 80, 255 });
-    DrawRectangle(1040, 50, 300, 670, (Color){ 180, 180, 180, 255 });
+    DrawRectangle(0, 0, 1280, 50, (Color){ 60, 60, 80, 255 });
+    DrawRectangle(0, 50, 300, 670, (Color){ 140, 140, 160, 255 });
+    DrawRectangle(1040, 50, 300, 670, (Color){ 140, 140, 160, 255 });
 
     DrawTexture(logoNegro, 0, 0, WHITE);
 
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 36);
-    GuiDrawText("CubiTz Sport", (Rectangle){ 60, 5, 300, 50 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("CubiTz Sport", (Rectangle){ 60, 5, 300, 50 }, TEXT_ALIGN_LEFT, (Color){ 255, 255, 255, 255 });
 
     GuiSetFont(*fontLekton);
-    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
-    GuiDrawText("Registros", (Rectangle){ 500, 15, 300, 20 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
+    GuiDrawText("Registros", (Rectangle){ 500, 15, 300, 20 }, TEXT_ALIGN_CENTER, (Color){ 255, 255, 255, 255 });
     //Botones 
     //Menu
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
