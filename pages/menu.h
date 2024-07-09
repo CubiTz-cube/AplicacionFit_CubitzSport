@@ -3,26 +3,10 @@
 
 #include "../state.h"
 
-void drawActivities(NodeActivity* activitieList){
-    if (!activitieList) return;
-    NodeActivity* aux = activitieList;
-    int i = 0;
-    while (aux){
-        int j = 0;
-        char activitiesNames[50][ACTIVITY_AMOUNT] = ACTIVITY_NAMESARRAY;
-            
-        char text[255];
-        sprintf(text, "Actividad: %s\nDuracion: %d:%d:%d\nFecha: %d/%d/%d a las %d:%d:%d\nDistancia: %d m\nCalorias: %d", activitiesNames[aux->type], aux->duration.hour, aux->duration.minute, aux->duration.second, aux->date.day, aux->date.month, aux->date.year, aux->date.hour, aux->date.minute, aux->date.second, aux->distance, aux->calories);
-        GuiDrawText(text, (Rectangle){ 500, 100 + 85*i, 300, 100 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
-        aux = aux->next;
-        i++;
-    }
-}
-
 void drawRecords(int* recordsD, int* recordsC){
     GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
     int j = 0;
-    GuiDrawText("Records Personales", (Rectangle){ 1000, 15, 300, 50 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+    GuiDrawText("Records Personales", (Rectangle){ 1000, 15, 300, 20 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
     for (int i = 0; i < ACTIVITY_AMOUNT; i++){
         char text[255];
@@ -37,41 +21,84 @@ void drawRecords(int* recordsD, int* recordsC){
     }
 }
 
+int drawActivitiesUser(NodeActivity* activityUser, int page, int amount){
+    if (!activityUser) return -1;
+    NodeActivity* aux = activityUser;
+    char activitiesNames[50][ACTIVITY_AMOUNT] = ACTIVITY_NAMESARRAY;
+    int i = 0;
+    int j = 0;
+    while (aux){
+        if (i < page*amount){
+            aux = aux->next;
+            i++;
+            continue;
+        }
+        if (j == amount) return 1;
+        char text[255];
+        sprintf(text, "Actividad: %s\nDuracion: %d:%d:%d\nFecha: %d/%d/%d a las %d:%d:%d\nDistancia: %d m\nCalorias: %d", activitiesNames[aux->type], aux->duration.hour, aux->duration.minute, aux->duration.second, aux->date.day, aux->date.month, aux->date.year, aux->date.hour, aux->date.minute, aux->date.second, aux->distance, aux->calories);
+        GuiDrawText(text, (Rectangle){ 500, 60 + 85*j, 300, 100 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+        aux = aux->next;
+        j++;
+    }
+    return 0;
+}
+
 void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, HashTable* hashTableUsers, NodeActivity* activities[ACTIVITY_AMOUNT]){
     static char message[255] = "";
+    static int pageActivities = 0;
     BeginDrawing();
 
 	ClearBackground(RAYWHITE);
-    GuiSetFont(*fontAldrich);
-    GuiSetStyle(DEFAULT, TEXT_SIZE, 32);
-    GuiDrawText("CubiTz MENU", (Rectangle){ 0, 0, 300, 50 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
 
-    //Botones
+    DrawRectangle(0, 0, 300, 50, (Color){ 240, 240, 240, 255 });
+    DrawRectangle(0, 50, 300, 670, (Color){ 80, 80, 80, 255 });
+    DrawRectangle(1040, 0, 300, 50, (Color){ 240, 240, 240, 255 });
+    DrawRectangle(1040, 50, 300, 670, (Color){ 200, 200, 200, 255 });
+
+    GuiSetFont(*fontAldrich);
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 36);
+    GuiDrawText("CubiTz Sport", (Rectangle){ 0, 0, 300, 50 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
+
+    //Botones 
+    //Menu
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    if (GuiButton((Rectangle){ 50, 60, 200, 40 }, "Anadir actividad")) {
+    if (GuiButton((Rectangle){ 30, 60, 240, 40 }, "#150# Anadir actividad")) {
         *page = 3;
         message[0] = '\0';
     }
-    if (GuiButton((Rectangle){ 50, 60+50, 200, 40 }, "Perfil")) {
+    if (GuiButton((Rectangle){ 30, 60+50, 240, 40 }, "#185# Perfil")) {
         *page = 4;
         message[0] = '\0';
     }
-    if (GuiButton((Rectangle){ 50, 60+50*2, 200, 40 }, "Estadisticas")){ 
+    if (GuiButton((Rectangle){ 30, 60+50*2, 240, 40 }, "#189# Estadisticas")){ 
         *page = 5;
         message[0] = '\0';
     }
-    if (GuiButton((Rectangle){ 50, 60+50*3, 200, 40 }, "Exportar/Importar")) {
+    if (GuiButton((Rectangle){ 30, 60+50*3, 240, 40 }, "#10#Open Exportar/Importar")) {
         *page = 6;
         message[0] = '\0';
     }
+    // Paginas
+    if (GuiButton((Rectangle){ 300, 680, 150, 40 }, "Anterior") && pageActivities > 0) {
+        pageActivities--;
+    }
+    if (GuiButton((Rectangle){ 890, 680, 150, 40 }, "Siguiente")) {
+        pageActivities++;
+    }
 
     GuiDrawText(message, (Rectangle){ 600, 120+80*5, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
+    char textPage[255];
+    sprintf(textPage, "Pagina %d", pageActivities+1);
+    GuiDrawText(textPage, (Rectangle){ 600, 680, 400, 30 }, TEXT_ALIGN_LEFT, (Color){ 0, 0, 0, 255 });
 
     //Actividades
-    drawActivities(activities[0]);
     drawRecords(hashTableUsers->users[actualUser]->recordsDistance, hashTableUsers->users[actualUser]->recordsCalories);
-		
+    
+    if (!drawActivitiesUser(activities[5], pageActivities, 3)){
+        pageActivities--;
+    }
+
 	EndDrawing();
 }
 
