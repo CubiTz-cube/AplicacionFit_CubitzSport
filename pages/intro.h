@@ -17,7 +17,7 @@ void layer_intro(int* page, Texture logoColor){
     DrawTexturePro(logoColor, sourceRec, destRec, origin, 0.0f, tint);
 
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
-        *page = 1;
+        *page = 0;
     }
     
     if (counter > 270){

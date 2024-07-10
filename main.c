@@ -41,7 +41,7 @@ int main(){
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
 	int actualUser = 1;
 	
-    int page = 0;
+    int page = 7;
 	while (!WindowShouldClose())
 	{   
         if (page == 0) layer_login(&page, &fontLekton, &fontAldrich, &actualUser, hashTableUsers);
