@@ -15,6 +15,10 @@ User* createUser(){
         free(user);
         return NULL;
     }
+    for (int i = 0; i < ACTIVITY_AMOUNT; i++){
+        user->recordsDistance[i] = 0;
+        user->recordsCalories[i] = 0;
+    }
 
     return user;
 }
@@ -209,11 +213,11 @@ int functionHash(int size, char* mail){
 
 /*
     Recibe un puntero de estructura usuario con los valores ya asignados.
-    Usa createUser para crear el usuario.
+    Usa createUser para crear el usuario. Retorna la posicion donde lo añadio.
 */
-void addHashTable(HashTable* hashTable, int size, User* user){
-    if (!hashTable) return;
-    if (isFullHashTable(hashTable)) return;
+int addHashTable(HashTable* hashTable, int size, User* user){
+    if (!hashTable) return -1;
+    if (isFullHashTable(hashTable)) return -1;
 
     int hash = functionHash(size, user->mail);
     if (hashTable->users[hash]){
@@ -224,6 +228,7 @@ void addHashTable(HashTable* hashTable, int size, User* user){
         }
     }
     hashTable->users[hash] = user;
+    return hash;
 }
 
 /*
@@ -232,7 +237,9 @@ void addHashTable(HashTable* hashTable, int size, User* user){
     Si no se encuentra devuelve -1;
 */
 int searchHashTable(HashTable* hashTable, char* mail){
-    if (!hashTable) return -1;
+    if (!hashTable) return -2;
+    if (!mail) return -2;
+    if (mail[0] == '\0') return -2;
 
     int hash = functionHash(hashTable->max, mail);
     for (int i = 0; i < hashTable->max; i++){

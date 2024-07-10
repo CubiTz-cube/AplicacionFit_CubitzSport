@@ -39,13 +39,13 @@ int main(){
 
     Font fontLekton = LoadFont("public/fonts/Lekton-Regular.ttf");
     Font fontAldrich = LoadFont("public/fonts/Aldrich-Regular.ttf");
-	int actualUser = 1;//-1;
+	int actualUser = 1;
 	
-    int page = 2;
+    int page = 0;
 	while (!WindowShouldClose())
 	{   
-        if (page == 0) layer_login(&page, &fontLekton, &fontAldrich);
-        else if (page == 1) layer_register(&page, &fontLekton, &fontAldrich);
+        if (page == 0) layer_login(&page, &fontLekton, &fontAldrich, &actualUser, hashTableUsers);
+        else if (page == 1) layer_register(&page, &fontLekton, &fontAldrich, &actualUser, hashTableUsers);
         else if (page == 2) layer_menu(&page, &fontLekton, &fontAldrich, actualUser, hashTableUsers, activities, logoNegro);
 		else if (page == 3) layer_addActivity(&page, &fontLekton, &fontAldrich, actualUser, hashTableUsers, activities);
 		else if (page == 4) layer_profile(&page, &fontLekton, &fontAldrich, &actualUser, hashTableUsers);

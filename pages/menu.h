@@ -60,6 +60,7 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
     GuiSetFont(*fontAldrich);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 36);
     GuiDrawText("CubiTz Sport", (Rectangle){ 60, 5, 300, 50 }, TEXT_ALIGN_LEFT, (Color){ 255, 255, 255, 255 });
+    GuiDrawText(hashTableUsers->users[actualUser]->info->name, (Rectangle){ 30, 60, 240, 40 }, TEXT_ALIGN_CENTER, (Color){ 0, 0, 0, 255 });
 
     GuiSetFont(*fontLekton);
     GuiSetStyle(DEFAULT, TEXT_SIZE, 24);
@@ -67,19 +68,19 @@ void layer_menu(int* page, Font* fontLekton, Font* fontAldrich, int actualUser, 
     //Botones 
     //Menu
     GuiSetStyle(DEFAULT, TEXT_SIZE, 16);
-    if (GuiButton((Rectangle){ 30, 60, 240, 40 }, "#150# Agregar actividad")) {
+    if (GuiButton((Rectangle){ 30, 120, 240, 40 }, "#150# Agregar actividad")) {
         *page = 3;
         message[0] = '\0';
     }
-    if (GuiButton((Rectangle){ 30, 60+50, 240, 40 }, "#185# Perfil")) {
+    if (GuiButton((Rectangle){ 30, 120+50, 240, 40 }, "#185# Perfil")) {
         *page = 4;
         message[0] = '\0';
     }
-    if (GuiButton((Rectangle){ 30, 60+50*2, 240, 40 }, "#189# Estadisticas")){ 
+    if (GuiButton((Rectangle){ 30, 120+50*2, 240, 40 }, "#189# Estadisticas")){ 
         *page = 5;
         message[0] = '\0';
     }
-    if (GuiButton((Rectangle){ 30, 60+50*3, 240, 40 }, "#10#Open Exportar/Importar")) {
+    if (GuiButton((Rectangle){ 30, 120+50*3, 240, 40 }, "#10#Open Exportar/Importar")) {
         *page = 6;
         message[0] = '\0';
     }
