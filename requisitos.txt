@@ -1,0 +1,2 @@
+Requiere para la ejecución:
+* Raylib
